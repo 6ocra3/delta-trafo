@@ -41,7 +41,7 @@ const LoginPage: React.FC = () => {
           </div>
           <div className="login__footer">
             <a className="login__footer-link logo" href="#">
-              <img className="login__footer-img logo__img" src="assets/images/icons/logo-colored.svg" alt=""/>
+              <img className="login__footer-img logo__img" src="src/assets/images/icons/logo-colored.svg" alt=""/>
             </a>
           </div>
 
