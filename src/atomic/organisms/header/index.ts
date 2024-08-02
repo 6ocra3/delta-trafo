@@ -1,1 +1,2 @@
-export { default as Header } from './Header.tsx';
+import Header from "./Header";
+export default Header;

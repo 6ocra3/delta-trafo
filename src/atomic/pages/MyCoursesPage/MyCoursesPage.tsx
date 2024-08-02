@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 
-const MyCoursePage: React.FC = () => {
+const MyCoursesPage: React.FC = () => {
   return (
     <main className="main main--decor">
       <div className="intro">
@@ -115,4 +115,4 @@ const MyCoursePage: React.FC = () => {
   );
 };
 
-export default MyCoursePage;
+export default MyCoursesPage;

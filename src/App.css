@@ -43,6 +43,10 @@ html, body {
   height: 100%;
 }
 
+.body{
+  height: 100%;;
+}
+
 *,
 *::after,
 *::before {
@@ -96,6 +100,17 @@ select {
 }
 
 body {
+  background-color: #fff;
+  font-family: "roboto", sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  color: #B0B0B0;
+  overflow-x: hidden;
+}
+
+.body {
   background-color: #fff;
   font-family: "roboto", sans-serif;
   font-size: 14px;
@@ -469,7 +484,7 @@ body {
   content: "";
   width: 26px;
   height: 25px;
-  background-image: url("/assets/images/icons/search.svg");
+  background-image: url("src/assets/images/icons/search.svg");
   position: absolute;
   top: 50%;
   left: 12px;
@@ -586,7 +601,7 @@ body {
           align-items: center;
   gap: 10px;
   background-color: transparent;
-  background-image: url("/assets/images/profile-bg.png");
+  background-image: url("src/assets/images/profile-bg.png");
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -705,7 +720,7 @@ body {
   content: "";
   width: 10px;
   height: 10px;
-  background-image: url("/assets/images/icons/arrow-down.svg");
+  background-image: url("src/assets/images/icons/arrow-down.svg");
   background-repeat: no-repeat;
   background-size: cover;
   position: absolute;
@@ -719,7 +734,7 @@ body {
   content: "";
   width: 10px;
   height: 10px;
-  background-image: url("/assets/images/icons/arrow-down.svg");
+  background-image: url("src/assets/images/icons/arrow-down.svg");
   background-repeat: no-repeat;
   background-size: cover;
   position: absolute;
@@ -745,7 +760,7 @@ body {
   content: "";
   width: 41px;
   height: 36px;
-  background-image: url("/assets/images/icons/folder.svg");
+  background-image: url("src/assets/images/icons/folder.svg");
   background-repeat: no-repeat;
   background-size: cover;
   position: absolute;
@@ -763,7 +778,7 @@ body {
   content: "";
   width: 15px;
   height: 13px;
-  background-image: url("/assets/images/icons/user+.svg");
+  background-image: url("src/assets/images/icons/user+.svg");
   background-repeat: no-repeat;
   background-size: cover;
   position: absolute;
@@ -804,7 +819,7 @@ body {
   content: "";
   width: 27px;
   height: 24px;
-  background-image: url("/assets/images/icons/add-section.svg");
+  background-image: url("src/assets/images/icons/add-section.svg");
   background-repeat: no-repeat;
   background-size: cover;
   position: absolute;
@@ -896,7 +911,7 @@ body {
   height: 22px;
   border: none;
   background-color: transparent;
-  background-image: url("/assets/images/icons/hidden.svg");
+  background-image: url("src/assets/images/icons/hidden.svg");
   background-repeat: no-repeat;
   background-size: contain;
   position: absolute;
@@ -930,7 +945,7 @@ body {
   content: "";
   width: 61px;
   height: 50px;
-  background-image: url("/assets/images/icons/add-avatar.svg");
+  background-image: url("src/assets/images/icons/add-avatar.svg");
   background-repeat: no-repeat;
   background-size: cover;
   position: absolute;
@@ -978,7 +993,7 @@ body {
   content: "";
   width: 10px;
   height: 10px;
-  background-image: url("/assets/images/icons/arrow-down.svg");
+  background-image: url("src/assets/images/icons/arrow-down.svg");
   background-repeat: no-repeat;
   background-size: cover;
   position: absolute;
@@ -1069,7 +1084,7 @@ body {
   content: "";
   width: 15px;
   height: 15px;
-  background-image: url("/assets/images/icons/copy-gray.svg");
+  background-image: url("src/assets/images/icons/copy-gray.svg");
   background-repeat: no-repeat;
   background-size: contain;
   position: absolute;
@@ -1090,7 +1105,7 @@ body {
 .login .password__hidden {
   width: 20px;
   height: 20px;
-  background-image: url(/assets/images/icons/hidden2.svg);
+  background-image: url("src/assets/images/icons/hidden2.svg");
   right: 19px;
 }
 .login__header {
