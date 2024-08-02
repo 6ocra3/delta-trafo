@@ -1,25 +1,23 @@
 // src/components/LoginPage.tsx
 
 import React, { useState } from 'react';
+import intro from "/src/assets/images/intro/1.jpg"
+import card1 from "/src/assets/images/card/1.jpg"
+import card2 from "/src/assets/images/card/2.jpg"
+import card3 from "/src/assets/images/card/3.jpg"
+import card4 from "/src/assets/images/card/4.jpg"
+import card5 from "/src/assets/images/card/5.jpg"
+import Navbar from '../../organisms/Navbar';
+import { IntroComponent } from '../../molecules/IntroComponent';
 
 const MyCoursesPage: React.FC = () => {
   return (
     <main className="main main--decor">
-      <div className="intro">
-        <img className="intro__img" src="src/assets/images/intro/1.jpg" alt=""/>
-      </div>
+      <IntroComponent imageSrc={intro}/>
       <div className="main__content">
         <div className="container">
           <div className="main__inner">
-            <nav className="nav">
-              <ul className="nav__list">
-                <li className="nav__list-item nav__list-item--active"><a className="nav__list-link" href="#">Мои курсы</a></li>
-                <li className="nav__list-item"><a className="nav__list-link" href="#">База знаний</a></li>
-                <li className="nav__list-item"><a className="nav__list-link" href="#">Библиотека</a></li>
-                <li className="nav__list-item"><a className="nav__list-link" href="#">Галерея</a></li>
-                <li className="nav__list-item"><a className="nav__list-link" href="#">Корпоративная газета</a></li>
-              </ul>
-            </nav>
+            <Navbar/>
             <div className="tabs">
               <div className="tabs__top">
                 <div className="tabs__top-items">
@@ -36,7 +34,7 @@ const MyCoursesPage: React.FC = () => {
                     <div className="card">
                       <div className="card__info">
                         <div className="card__preview">
-                          <img className="card__preview-img" src="src/assets/images/card/1.jpg" alt=""/>
+                          <img className="card__preview-img" src={card1} alt=""/>
                         </div>
                         <div className="card__content">
                           <h3 className="card__content-title">Оценка персонала</h3>
@@ -50,7 +48,7 @@ const MyCoursesPage: React.FC = () => {
                     <div className="card">
                       <div className="card__info">
                         <div className="card__preview">
-                          <img className="card__preview-img" src="src/assets/images/card/2.jpg" alt=""/>
+                          <img className="card__preview-img" src={card2} alt=""/>
                         </div>
                         <div className="card__content">
                           <h3 className="card__content-title">Как давать обратную связь сотрудникам?</h3>
@@ -64,7 +62,7 @@ const MyCoursesPage: React.FC = () => {
                     <div className="card">
                       <div className="card__info">
                         <div className="card__preview">
-                          <img className="card__preview-img" src="src/assets/images/card/3.jpg" alt=""/>
+                          <img className="card__preview-img" src={card3} alt=""/>
                         </div>
                         <div className="card__content">
                           <h3 className="card__content-title">Делу время. Основы тайм-менджмента</h3>
@@ -78,7 +76,7 @@ const MyCoursesPage: React.FC = () => {
                     <div className="card">
                       <div className="card__info">
                         <div className="card__preview">
-                          <img className="card__preview-img" src="src/assets/images/card/4.jpg" alt=""/>
+                          <img className="card__preview-img" src={card4} alt=""/>
                         </div>
                         <div className="card__content">
                           <h3 className="card__content-title">Основы охраны труда</h3>
@@ -88,11 +86,11 @@ const MyCoursesPage: React.FC = () => {
                       <div className="card__progress">
                         В работе (<span>3/4</span>)
                       </div>
-                    </div>
+                    </div>x 
                     <div className="card">
                       <div className="card__info">
                         <div className="card__preview">
-                          <img className="card__preview-img" src="src/assets/images/card/5.jpg" alt=""/>
+                          <img className="card__preview-img" src={card5} alt=""/>
                         </div>
                         <div className="card__content">
                           <h3 className="card__content-title">Устройство трансформатора</h3>

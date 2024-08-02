@@ -1,25 +1,18 @@
 // src/components/LoginPage.tsx
 
 import React, { useState } from 'react';
+import Navbar from '../../organisms/Navbar';
+import { IntroComponent } from '../../molecules/IntroComponent';
+import intro from "/src/assets/images/intro/4.jpg"
 
 const GalleryPage: React.FC = () => {
   return (
     <main className="main main--decor">
-      <div className="intro">
-        <img className="intro__img" src="src/assets/images/intro/3.jpg" alt=""/>
-      </div>
+      <IntroComponent imageSrc={intro}/>
       <div className="main__content">
         <div className="container">
           <div className="main__inner">
-            <nav className="nav">
-              <ul className="nav__list">
-                <li className="nav__list-item"><a className="nav__list-link" href="#">Мои курсы</a></li>
-                <li className="nav__list-item"><a className="nav__list-link" href="#">База знаний</a></li>
-                <li className="nav__list-item"><a className="nav__list-link" href="#">Библиотека</a></li>
-                <li className="nav__list-item nav__list-item--active"><a className="nav__list-link" href="#">Галерея</a></li>
-                <li className="nav__list-item"><a className="nav__list-link" href="#">Корпоративная газета</a></li>
-              </ul>
-            </nav>
+            <Navbar/>
             <div className="tabs">
               <div className="tabs__top tabs__top--column">
                 <div className="tabs__top-items">

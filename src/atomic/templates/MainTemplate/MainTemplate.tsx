@@ -14,7 +14,7 @@ const MainTemplate: React.FC = () => {
 
   return (
       <div className="wrapper">
-        <Header/>
+        {/* <Header/> */}
         <Routes>
           <Route path='courses' element={<MyCoursesPage/>} />
           <Route path='base' element={<KnowledgeBasePage/>} />
