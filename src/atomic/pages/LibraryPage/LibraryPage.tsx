@@ -4,8 +4,18 @@ import React, { useState } from 'react';
 import Navbar from '../../organisms/Navbar';
 import intro from "/src/assets/images/intro/3.jpg"
 import { IntroComponent } from '../../molecules/IntroComponent';
-
+import {
+  useReactTable,
+  createColumnHelper,
+  flexRender,
+  getCoreRowModel,
+  ColumnDef
+} from '@tanstack/react-table';
+import { LibraryTable } from '../../organisms/MainTables/LibraryTable';
 const LibraryPage: React.FC = () => {
+
+  // const table = useReactTable()
+  
   return (
     <main className="main main--decor">
       <IntroComponent imageSrc={intro}/>
@@ -28,119 +38,12 @@ const LibraryPage: React.FC = () => {
                   <input className="search__input" type="search"/>
                 </label>
               </div>
-              <div className="tabs__content">
-                <div className="tabs__content-item tabs__content-item--active" id="tab-1">
-                  <div className="library">
-                    <div className="library__header">
-                      <div className="library__header-column name">Название</div>
-                      <div className="library__header-column author">Автор</div>
-                      <div className="library__header-column type">Тип</div>
-                    </div>
-                    <div className="library__body">
-                      <div className="library__item">
-                        <div className="library__item-column name-body">7 навыков высокоэффективных людей</div>
-                        <div className="library__item-column author-body">Стивен Кови</div>
-                        <div className="library__item-column type-body">Текст</div>
-                      </div>
-                      <div className="library__item">
-                        <div className="library__item-column name-body">Атлант расправил плечи</div>
-                        <div className="library__item-column author-body">Айн Рэнд</div>
-                        <div className="library__item-column type-body">Аудио</div>
-                      </div>
-                      <div className="library__item">
-                        <div className="library__item-column name-body">Богатый Папа, Бедный Папа</div>
-                        <div className="library__item-column author-body">Роберт Т. Кийосаки</div>
-                        <div className="library__item-column type-body">Текст</div>
-                      </div>
-                      <div className="library__item">
-                        <div className="library__item-column name-body">Цель. Процесс непрерывного совершенствования</div>
-                        <div className="library__item-column author-body">Элия М. Гольдратт</div>
-                        <div className="library__item-column type-body">Текст</div>
-                      </div>
-                      <div className="library__item">
-                        <div className="library__item-column name-body">Самый богатый человек в Вавилоне</div>
-                        <div className="library__item-column author-body">Джордж С. Клейсон</div>
-                        <div className="library__item-column type-body">Текст</div>
-                      </div>
-                      <div className="library__item">
-                        <div className="library__item-column name-body">Доставляя счастье. От нуля до миллиарда</div>
-                        <div className="library__item-column author-body">Тони Шей</div>
-                        <div className="library__item-column type-body">Аудио</div>
-                      </div>
-                      <div className="library__item">
-                        <div className="library__item-column name-body">Маркетинг без бюджета. 50 работающих инструментов
-                        </div>
-                        <div className="library__item-column author-body">Игорь Манн</div>
-                        <div className="library__item-column type-body">Текст</div>
-                      </div>
-                      <div className="library__item">
-                        <div className="library__item-column name-body">45 татуировок менеджера</div>
-                        <div className="library__item-column author-body">Максим Батырев</div>
-                        <div className="library__item-column type-body">Текст</div>
-                      </div>
-                      <div className="library__item">
-                        <div className="library__item-column name-body">Дао Toyota: 14 принципов менеджмента ведущей
-                          компании мира</div>
-                        <div className="library__item-column author-body">Джеффри Лайкер</div>
-                        <div className="library__item-column type-body">Текст</div>
-                      </div>
-                      <div className="library__item">
-                        <div className="library__item-column name-body">5S для офиса. Как организовать эффективное рабочее
-                          место</div>
-                        <div className="library__item-column author-body">Том Фабрицио</div>
-                        <div className="library__item-column type-body">Аудио</div>
-                      </div>
-                      <div className="library__item">
-                        <div className="library__item-column name-body">Продажа товаров и услуг по методу бережливого
-                          производства</div>
-                        <div className="library__item-column author-body">Джеймс П. Вумек</div>
-                        <div className="library__item-column type-body">Аудио</div>
-                      </div>
-                      <div className="library__item">
-                        <div className="library__item-column name-body">Учитесь видеть бизнес-процессы: Практика построения
-                          карт потоков создания ценности</div>
-                        <div className="library__item-column author-body">Джон Шук</div>
-                        <div className="library__item-column type-body">Текст</div>
-                      </div>
-                      <div className="library__item">
-                        <div className="library__item-column name-body">Бережливое производство: Как избавиться от потерь
-                          и добиться процветания вашей компании</div>
-                        <div className="library__item-column author-body">Джеймс П. Вумек</div>
-                        <div className="library__item-column type-body">Текст</div>
-                      </div>
-                      <div className="library__item">
-                        <div className="library__item-column name-body">Сложные подчиненные</div>
-                        <div className="library__item-column author-body">Максим Батырев</div>
-                        <div className="library__item-column type-body">Аудио</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="tabs__content-item" id="tab-2">content 2</div>
-                <div className="tabs__content-item" id="tab-3">content 3</div>
-                <div className="tabs__content-item" id="tab-4">content 4</div>
-                <div className="tabs__content-item" id="tab-5">content 5</div>
-                <div className="tabs__content-item" id="tab-6">content 6</div>
-                <div className="tabs__content-item" id="tab-7">content 7</div>
-                <div className="pagination">
-                  <a className="pagination__prev pagination__arrows" href="#">
-                    <img src="src/assets/images/icons/arrow-prev.svg" alt=""/>
-                  </a>
-                  <ul className="pagination__list">
-                    <li className="pagination__item"><a className="pagination__link pagination__link--active" href="#">1</a>
-                    </li>
-                    <li className="pagination__item"><a className="pagination__link" href="#">2</a></li>
-                    <li className="pagination__item"><a className="pagination__link" href="#">3</a>
-                    </li>
-                    <li className="pagination__item"><a className="pagination__link" href="#">4</a></li>
-                    <li className="pagination__item"><a className="pagination__link" href="#">5</a></li>
-                  </ul>
-                  <a className="pagination__next pagination__arrows" href="#">
-                    <img src="src/assets/images/icons/arrow-next.svg" alt=""/>
-                  </a>
-                </div>
+              <div className='tabs__content'>
+              <LibraryTable/>
               </div>
+
             </div>
+
           </div>
         </div>
       </div>

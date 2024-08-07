@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Header.scss';
+import logo from "/src/assets/images/icons/logo.svg"
 
 const Header: React.FC = () => {
 
@@ -10,7 +11,7 @@ const Header: React.FC = () => {
           в корпоративный университет</h1>
         <div className="header__right">
           <a className="header__link logo" href="#">
-            <img className="header__img logo__img" src="src/assets/images/icons/logo.svg" alt=""/>
+            <img className="header__img logo__img" src={logo} alt=""/>
           </a>
           <div className="profile">
             <div className="profile__header">

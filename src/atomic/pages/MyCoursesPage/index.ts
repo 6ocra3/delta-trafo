@@ -1,1 +1,1 @@
-export { default as MyCoursesPage } from './MyCoursesPage';
+export { default as MyCoursesPage } from './MyCoursesPage.tsx';
