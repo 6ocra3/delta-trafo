@@ -1,17 +1,31 @@
 // src/components/LoginPage.tsx
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './LoginPage.scss';
+import { useAppDispatch, useAppSelector } from '../../../store';
+import { ILoginRequest } from '../../../api/auth/types';
+import { loginUser } from '../../../store/slices/auth';
+import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom'; 
 
 const LoginPage: React.FC = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const {token} = useAppSelector( (state) => state.auth.authData)
+  const onSubmit = (values: ILoginRequest) => dispatch(loginUser(values))
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit
+  })
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    // Добавьте логику авторизации
-    console.log('Logging in:', { username, password });
-  };
+  useEffect(() => {
+    if(!!token){
+      navigate('/main/courses');
+    }
+  }, [token])
 
   return (
 <div className="wrapper">
@@ -23,22 +37,30 @@ const LoginPage: React.FC = () => {
               университет
               “ДЕЛЬТА трафо”</h1>
           </div>
-          <div className="login__main">
+          <form onSubmit={formik.handleSubmit} className="login__main">
             <a className="login__link" href="#">Вход в Личный кабинет</a>
             <div className="login__box">
               <div className="login__title">Адрес эл.почты</div>
-              <input className="login__input input" type="email"/>
+              <input name="email"
+                    value={formik.values.email}
+                    onChange={formik.handleChange} 
+                    className="login__input input" 
+                    type="email"/>
             </div>
             <div className="login__box">
               <div className="login__title">Пароль</div>
               <label className="password">
-                <input className="login__input password__input input" id="password" type="password"/>
-                <button className="password__hidden" data-target="#password"></button>
+                <input
+                      name="password"
+                      value={formik.values.password}
+                      onChange={formik.handleChange}
+                      className="login__input password__input input" id="password" type="password"/>
+                {/* <button className="password__hidden" data-target="#password"></button> */}
               </label>
             </div>
-            <a className="login__btn" href="#">Войти</a>
+            <button type='submit' className="login__btn" >Войти</button>
             <a className="login__link-password" href="#">Забыл пароль</a>
-          </div>
+          </form>
           <div className="login__footer">
             <a className="login__footer-link logo" href="#">
               <img className="login__footer-img logo__img" src="src/assets/images/icons/logo-colored.svg" alt=""/>

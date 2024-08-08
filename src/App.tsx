@@ -5,10 +5,13 @@ import './App.css'
 import { LoginPage } from './atomic/pages/LoginPage'
 import { MainTemplate } from './atomic/templates/MainTemplate'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import { store } from './store'
 
 function App() {
 
   return (
+    <Provider store={store}>
     <div className='body'>
     <Router>
       <Routes>
@@ -17,6 +20,7 @@ function App() {
       </Routes>
     </Router>
     </div>
+    </Provider>
   )
 }
 
