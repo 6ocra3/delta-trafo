@@ -6,3 +6,7 @@ export const enum AuthEndpoints {
 export const enum UserEndpoints {
     GET_USER = "/user"
 }
+
+export const enum FilesEndpoints {
+    GET_LIBRARY = "/delta/path-pages/library",
+}

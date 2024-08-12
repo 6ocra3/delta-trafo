@@ -14,7 +14,7 @@ import {
 import { LibraryTable } from '../../organisms/MainTables/LibraryTable';
 const LibraryPage: React.FC = () => {
 
-  // const table = useReactTable()
+  const [searchString, setSearchString] = useState("");
   
   return (
     <main className="main main--decor">
@@ -35,11 +35,11 @@ const LibraryPage: React.FC = () => {
                   <a className="tabs__top-item" href="#tab-7">Разное (<span>22</span>)</a>
                 </div>
                 <label className="search">
-                  <input className="search__input" type="search"/>
+                  <input value={searchString} onChange={(e) => setSearchString(e.target.value)} className="search__input"/>
                 </label>
               </div>
               <div className='tabs__content'>
-              <LibraryTable/>
+              <LibraryTable searchString={searchString} setSearchString={setSearchString}/>
               </div>
 
             </div>

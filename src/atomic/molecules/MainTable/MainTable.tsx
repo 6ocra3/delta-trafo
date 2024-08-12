@@ -6,17 +6,24 @@ PaginationState} from '@tanstack/react-table';
 import "./MainTable.css"
 import prev from "/src/assets/images/icons/arrow-prev.svg"
 import next from "/src/assets/images/icons/arrow-next.svg"
+import { ILibraryFile } from '../../../api/files/types';
+
 interface MainTableProps {
   data: Array<any>;
   columns: ColumnDef<any, string>[];
+  setRoot: React.Dispatch<React.SetStateAction<ILibraryFile | undefined>>; // Тип для setRoot
 }
 
-const MainTable: React.FC<MainTableProps> = ({ data, columns }) => {
+const MainTable: React.FC<MainTableProps> = ({ data, columns, setRoot }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 5,
   });
+
+  const onRowDoubleClick = (rowOriginal: any) => {
+    setRoot(rowOriginal)
+  }
 
   const table = useReactTable({
     data,
@@ -55,7 +62,9 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns }) => {
       </thead>
       <tbody>
         {table.getRowModel().rows.map(row => (
-          <tr key={row.id}>
+          <tr key={row.id}
+          onDoubleClick={() => onRowDoubleClick?.(row.original)}
+          >
             {row.getVisibleCells().map(cell => (
               <td
                 className='main_table--cell'
