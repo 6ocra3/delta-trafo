@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import "./LibraryTable.scss"
+import "./GalleryTable.scss"
 import { createColumnHelper, ColumnDef } from '@tanstack/react-table';
 import { MainTable } from '../../../molecules/MainTable';
 import folder from "/src/assets/images/icons/folder.svg"
 import { useAppDispatch, useAppSelector } from '../../../../store';
-import { getLibraryFiles } from '../../../../store/slices/files';
-import { ILibraryFile, MainTableFile } from '../../../../api/files/types';
+import { getGalleryFiles, getLibraryFiles } from '../../../../store/slices/files';
+import { IGalleryFile, ILibraryFile, MainTableFile } from '../../../../api/files/types';
 import { RowIconCell } from '../../../atoms/RowIconCell';
 import { tableInfoProps } from '../../../molecules/MainTable/MainTable';
 
@@ -16,9 +16,9 @@ import { tableInfoProps } from '../../../molecules/MainTable/MainTable';
         id: 'icon',
         header: '',
         cell: () => {
-          return <RowIconCell/>;
+            return <RowIconCell/>
         },
-        size: 60, 
+        size: 70, 
         enableSorting: false,
     }),
     columnHelper.accessor('name', {
@@ -26,48 +26,30 @@ import { tableInfoProps } from '../../../molecules/MainTable/MainTable';
       minSize: 50,
       enableSorting: true,
     }),
-    columnHelper.accessor('author', {
-      header: 'Автор',
+    columnHelper.accessor('year', {
+      header: 'Год',
       minSize: 50,
-      enableSorting: false,
+      enableSorting: true,
     }),
-    columnHelper.accessor('type', {
-      header: 'Тип',
-      cell: (row) => {
-        var type = ""
-        //@ts-ignore
-        switch(row.row.original.type){
-          case 0:
-            type = "Папка"
-            break
-          case 1:
-            type = "Текст"
-            break
-          case 4:
-            type = "Изображение"
-            break
-          case 5:
-            type = "Код"
-        }
-        return(<>{type}</>)
-      },
-      size: 60,
+    columnHelper.accessor('countFiles', {
+      header: 'Количество файлов',
+      size: 70,
       enableSorting: false,
     }),
   ];
 
-interface LibraryTableProps{
+interface GalleryTableProps{
   searchString: string;
   setSearchString: React.Dispatch<React.SetStateAction<string>>;
 }  
 
-const LibraryTable: React.FC<LibraryTableProps> = ({searchString, setSearchString}) => {
+const GalleryTable: React.FC<GalleryTableProps> = ({searchString, setSearchString}) => {
 
   const dispatch = useAppDispatch();
-  const data = useAppSelector( (state) => state.files.filesData.library)
+  const data = useAppSelector( (state) => state.files.filesData.gallery)
 
   useEffect(() => {
-   dispatch(getLibraryFiles())
+   dispatch(getGalleryFiles())
   }, [])
 
   useEffect(() => {
@@ -77,7 +59,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({searchString, setSearchStrin
   }, [data])
 
   const tableInfo: tableInfoProps = {
-    tableName: "Библиотека"
+    tableName: "Галерея"
   }
 
   return (
@@ -89,4 +71,4 @@ const LibraryTable: React.FC<LibraryTableProps> = ({searchString, setSearchStrin
   );
 };
 
-export default LibraryTable;
+export default GalleryTable;

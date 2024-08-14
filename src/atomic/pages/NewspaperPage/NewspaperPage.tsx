@@ -5,8 +5,12 @@ import React, { useState } from 'react';
 import intro from "/src/assets/images/intro/4.jpg";
 import Navbar from '../../organisms/Navbar';
 import { IntroComponent } from '../../molecules/IntroComponent';
+import { NewspaperTable } from '../../organisms/MainTables/NewspaperTable';
 
 const NewspaperPage: React.FC = () => {
+
+  const [searchString, setSearchString] = useState("");
+
   return (
     <main className="main main--decor">
       <IntroComponent imageSrc={intro}/>
@@ -21,70 +25,11 @@ const NewspaperPage: React.FC = () => {
                   <a className="tabs__top-item" href="#tab-2">Архив (Электрические машины)</a>
                 </div>
                 <label className="search">
-                  <input className="search__input" type="search"/>
+                  <input value={searchString} onChange={(e) => setSearchString(e.target.value)} className="search__input"/>
                 </label>
               </div>
               <div className="tabs__content">
-                <div className="tabs__content-item tabs__content-item--active" id="tab-1">
-                  <div className="library gallery">
-                    <div className="library__header">
-                      <div className="library__header-column name">Название</div>
-                      <div className="library__header-column"></div>
-                      <div className="library__header-column"></div>
-                    </div>
-                    <div className="library__body">
-                      <div className="library__item">
-                        <div className="library__item-column name-body">2023 год</div>
-                      </div>
-                      <div className="library__item">
-                        <div className="library__item-column name-body">2022 год</div>
-                      </div>
-                      <div className="library__item">
-                        <div className="library__item-column name-body">2021 год</div>
-                      </div>
-                      <div className="library__item">
-                        <div className="library__item-column name-body">2020 год</div>
-                      </div>
-                      <div className="library__item">
-                        <div className="library__item-column name-body">2019 год</div>
-                      </div>
-                      <div className="library__item">
-                        <div className="library__item-column name-body">2018 год</div>
-                      </div>
-                      <div className="library__item">
-                        <div className="library__item-column name-body">2017 год
-                        </div>
-                      </div>
-                      <div className="library__item">
-                        <div className="library__item-column name-body">2016 год</div>
-                      </div>
-                      <div className="library__item">
-                        <div className="library__item-column name-body">2015 год</div>
-                      </div>
-                      <div className="library__item">
-                        <div className="library__item-column name-body">2014 год</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="tabs__content-item" id="tab-2">content 2</div>
-                <div className="pagination pagination--hidden">
-                  <a className="pagination__prev pagination__arrows" href="#">
-                    <img src="src/assets/images/icons/arrow-prev.svg" alt=""/>
-                  </a>
-                  <ul className="pagination__list">
-                    <li className="pagination__item"><a className="pagination__link pagination__link--active" href="#">1</a>
-                    </li>
-                    <li className="pagination__item"><a className="pagination__link" href="#">2</a></li>
-                    <li className="pagination__item"><a className="pagination__link" href="#">3</a>
-                    </li>
-                    <li className="pagination__item"><a className="pagination__link" href="#">4</a></li>
-                    <li className="pagination__item"><a className="pagination__link" href="#">5</a></li>
-                  </ul>
-                  <a className="pagination__next pagination__arrows" href="#">
-                    <img src="src/assets/images/icons/arrow-next.svg" alt=""/>
-                  </a>
-                </div>
+                  <NewspaperTable searchString={searchString} setSearchString={setSearchString}/>
               </div>
             </div>
           </div>

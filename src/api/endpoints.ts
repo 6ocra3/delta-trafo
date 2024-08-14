@@ -9,4 +9,7 @@ export const enum UserEndpoints {
 
 export const enum FilesEndpoints {
     GET_LIBRARY = "/delta/path-pages/library",
+    GET_GALLERY = "/delta/path-pages/gallery",
+    GET_NEWSPAPER = "/delta/path-pages/paper",
+    DOWNLOAD_FILE = "/delta/path-pages"
 }
