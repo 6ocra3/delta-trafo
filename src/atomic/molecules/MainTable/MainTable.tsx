@@ -20,14 +20,14 @@ export interface tableInfoProps{
 interface MainTableProps {
   data: MainTableFile;
   columns: ColumnDef<MainTableFile, any>[];
-  searchString: string;
-  setSearchString: React.Dispatch<React.SetStateAction<string>>;
-  tableInfo: tableInfoProps
+  tableInfo: tableInfoProps;
 }
 
 
-const MainTable: React.FC<MainTableProps> = ({ data, columns, searchString, setSearchString, tableInfo }) => {
+const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo }) => {
   const dispatch = useAppDispatch();
+  const [tab, setTab] = useState<MainTableFile>();
+  const [searchString, setSearchString] = useState("");
   const [path, setPath] = useState<MainTableFile[]>([])
   const [root, setRoot] = useState<MainTableFile>()
   const [tableData, setTableData] = useState<Array<MainTableFile>>([])
@@ -38,9 +38,13 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, searchString, setS
   });
 
   useEffect(() => {
-    setPath([])
-    setRoot(data)
+    setTab(data.folders[0])
   }, [])
+
+  useEffect(() => {
+    setPath([])
+    setRoot(tab)
+  }, [tab])
 
   useEffect(() => {
     if (root) {
@@ -89,7 +93,6 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, searchString, setS
 
   const goTo = (el: MainTableFile) => {
     if (el !== path[path.length - 1]) {
-      // Обновляем путь, удаляя лишние элементы
       const newPath = path.slice(0, path.findIndex((item) => item === el) + 1);
       setPath(newPath);
       setRoot(el);
@@ -112,6 +115,19 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, searchString, setS
 
   return (
     <>
+    <div className="tabs__top tabs__top--column">
+      <div className="tabs__top-items">
+        {
+          data.folders.map(el => (
+            <a className={["tabs__top-item",  JSON.stringify(el) === JSON.stringify(tab)  && "tabs__top-item--active"].join(" ")} onClick={() => setTab(el)} href="#tab-2">{el.name} (<span>{el.folders.length+el.files.length}</span>)</a>
+          ))
+        }
+      </div>
+      <label className="search">
+        <input value={searchString} onChange={(e) => setSearchString(e.target.value)} className="search__input"/>
+      </label>
+    </div>
+    <div className='tabs__content'>
       <div className='path-row'>
         {path.length > 1 && path.map( (el: MainTableFile, i: number) => {
           return(
@@ -185,6 +201,7 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, searchString, setS
           className="pagination__next pagination__arrows">
         <img src={next} alt=""/>
       </a>
+    </div>
     </div>
     </>
   );

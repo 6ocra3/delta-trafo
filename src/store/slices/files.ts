@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../api";
-import { IDownloadFile, IGalleryFile, ILibraryFile, INewspaperFile } from "../../api/files/types";
+import { IDownloadFile, IGalleryFile, ILibraryFile, INewspaperFile, MainTableFile } from "../../api/files/types";
 
 export interface FilesState {
     filesData: {
@@ -12,11 +12,19 @@ export interface FilesState {
 
 export const getLibraryFiles = createAsyncThunk<
     ILibraryFile,
-  undefined,
+  {addAll: boolean},
   { rejectValue: string }
->("files/library", async (_, { rejectWithValue }) => {
+>("files/library", async (params, { rejectWithValue }) => {
   try {
     const {data} = await api.files.getLibraryFiles()
+    if(params.addAll){
+      const allData: ILibraryFile = {name: "Все", folders: [], files: [], path:"", type:0,author:""};
+      data.folders.forEach(el => {
+        allData.folders = [...allData.folders, ...JSON.parse(JSON.stringify(el.folders))]
+        allData.files = [...allData.files, ...JSON.parse(JSON.stringify(el.files))]
+      })
+      data.folders.unshift(allData)
+    }
     return data;
   } catch (error: unknown) {
     console.error(error);

@@ -12,10 +12,7 @@ import {
   ColumnDef
 } from '@tanstack/react-table';
 import { LibraryTable } from '../../organisms/MainTables/LibraryTable';
-const LibraryPage: React.FC = () => {
-
-  const [searchString, setSearchString] = useState("");
-  
+const LibraryPage: React.FC = () => {  
   return (
     <main className="main main--decor">
       <IntroComponent imageSrc={intro}/>
@@ -24,24 +21,7 @@ const LibraryPage: React.FC = () => {
           <div className="main__inner">
             <Navbar/>
             <div className="tabs">
-              <div className="tabs__top tabs__top--column">
-                <div className="tabs__top-items">
-                  <a className="tabs__top-item tabs__top-item--active" href="#tab-1">Все (<span>78</span>)</a>
-                  <a className="tabs__top-item" href="#tab-2">Производство (<span>11</span>)</a>
-                  <a className="tabs__top-item" href="#tab-3">Продажи и маркетинг (<span>8</span>)</a>
-                  <a className="tabs__top-item" href="#tab-4">КТО (<span>15</span>)</a>
-                  <a className="tabs__top-item" href="#tab-5">Менеджмент (<span>13</span>)</a>
-                  <a className="tabs__top-item" href="#tab-6">Управление персоналом (<span>9</span>)</a>
-                  <a className="tabs__top-item" href="#tab-7">Разное (<span>22</span>)</a>
-                </div>
-                <label className="search">
-                  <input value={searchString} onChange={(e) => setSearchString(e.target.value)} className="search__input"/>
-                </label>
-              </div>
-              <div className='tabs__content'>
-              <LibraryTable searchString={searchString} setSearchString={setSearchString}/>
-              </div>
-
+              <LibraryTable/>
             </div>
 
           </div>

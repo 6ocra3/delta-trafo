@@ -484,7 +484,7 @@ body {
   content: "";
   width: 26px;
   height: 25px;
-  background-image: url("src/assets/images/icons/search.svg");
+  background-image: url("/src/assets/images/icons/search.svg");
   position: absolute;
   top: 50%;
   left: 12px;

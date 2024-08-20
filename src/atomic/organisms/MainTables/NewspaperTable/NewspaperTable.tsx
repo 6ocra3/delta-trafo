@@ -29,12 +29,8 @@ import { tableInfoProps } from '../../../molecules/MainTable/MainTable';
     }),
   ];
 
-interface NewspaperTableProps{
-  searchString: string;
-  setSearchString: React.Dispatch<React.SetStateAction<string>>;
-}  
 
-const NewspaperTable: React.FC<NewspaperTableProps> = ({searchString, setSearchString}) => {
+const NewspaperTable: React.FC = () => {
 
   const dispatch = useAppDispatch();
   const data = useAppSelector( (state) => state.files.filesData.newspaper)
@@ -43,12 +39,6 @@ const NewspaperTable: React.FC<NewspaperTableProps> = ({searchString, setSearchS
    dispatch(getNewspaperFiles())
   }, [])
 
-  useEffect(() => {
-    if(data){
-      setSearchString("")
-    }
-  }, [data])
-
   const tableInfo: tableInfoProps = {
     tableName: "Газета"
   }
@@ -56,7 +46,7 @@ const NewspaperTable: React.FC<NewspaperTableProps> = ({searchString, setSearchS
   return (
     <>
       {
-        data && <MainTable data={data} columns={columns} searchString={searchString} setSearchString={setSearchString} tableInfo={tableInfo} />
+        data && <MainTable data={data} columns={columns} tableInfo={tableInfo} />
       }
     </>
   );

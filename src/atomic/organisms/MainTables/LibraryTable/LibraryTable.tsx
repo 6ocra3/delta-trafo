@@ -56,25 +56,14 @@ import { tableInfoProps } from '../../../molecules/MainTable/MainTable';
     }),
   ];
 
-interface LibraryTableProps{
-  searchString: string;
-  setSearchString: React.Dispatch<React.SetStateAction<string>>;
-}  
-
-const LibraryTable: React.FC<LibraryTableProps> = ({searchString, setSearchString}) => {
+const LibraryTable: React.FC = () => {
 
   const dispatch = useAppDispatch();
   const data = useAppSelector( (state) => state.files.filesData.library)
 
   useEffect(() => {
-   dispatch(getLibraryFiles())
+   dispatch(getLibraryFiles({addAll: true}))
   }, [])
-
-  useEffect(() => {
-    if(data){
-      setSearchString("")
-    }
-  }, [data])
 
   const tableInfo: tableInfoProps = {
     tableName: "Библиотека"
@@ -83,7 +72,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({searchString, setSearchStrin
   return (
     <>
       {
-        data && <MainTable data={data} columns={columns} searchString={searchString} setSearchString={setSearchString} tableInfo={tableInfo} />
+        data && <MainTable data={data} columns={columns} tableInfo={tableInfo} />
       }
     </>
   );

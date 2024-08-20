@@ -38,12 +38,7 @@ import { tableInfoProps } from '../../../molecules/MainTable/MainTable';
     }),
   ];
 
-interface GalleryTableProps{
-  searchString: string;
-  setSearchString: React.Dispatch<React.SetStateAction<string>>;
-}  
-
-const GalleryTable: React.FC<GalleryTableProps> = ({searchString, setSearchString}) => {
+const GalleryTable: React.FC = () => {
 
   const dispatch = useAppDispatch();
   const data = useAppSelector( (state) => state.files.filesData.gallery)
@@ -52,12 +47,6 @@ const GalleryTable: React.FC<GalleryTableProps> = ({searchString, setSearchStrin
    dispatch(getGalleryFiles())
   }, [])
 
-  useEffect(() => {
-    if(data){
-      setSearchString("")
-    }
-  }, [data])
-
   const tableInfo: tableInfoProps = {
     tableName: "Галерея"
   }
@@ -65,7 +54,7 @@ const GalleryTable: React.FC<GalleryTableProps> = ({searchString, setSearchStrin
   return (
     <>
       {
-        data && <MainTable data={data} columns={columns} searchString={searchString} setSearchString={setSearchString} tableInfo={tableInfo} />
+        data && <MainTable data={data} columns={columns} tableInfo={tableInfo} />
       }
     </>
   );
