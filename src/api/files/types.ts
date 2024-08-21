@@ -35,3 +35,29 @@ export interface IDownloadFile{
     page: string,
     fileId: string,
 }
+
+export interface IFolderInfo{
+    path?: string,
+    author?: string,
+    year?: number,
+    name?: string
+}
+
+export interface ICreateFolder{
+    page: string,
+    folderInfo: IFolderInfo
+}
+
+export interface IFileInfo{
+    fileRequest: {
+        path?: string,
+        author?: string,
+        year?: number,
+    },
+    files: Blob[]
+}
+
+export interface ICreateFile{
+    page: string,
+    fileInfo: any
+}

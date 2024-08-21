@@ -6,12 +6,16 @@ PaginationState} from '@tanstack/react-table';
 import "./MainTable.css"
 import prev from "/src/assets/images/icons/arrow-prev.svg"
 import next from "/src/assets/images/icons/arrow-next.svg"
-import { IGalleryFile, ILibraryFile, INewspaperFile, MainTableFile } from '../../../api/files/types';
+import { ICreateFile, ICreateFolder, IFileInfo, IFolderInfo, IGalleryFile, ILibraryFile, INewspaperFile, MainTableFile } from '../../../api/files/types';
 
 import arrowDown from "/src/assets/images/icons/arrow-down.svg"
 
 import { downloadFiles } from '../../../store/slices/files';
 import { useAppDispatch } from '../../../store';
+import Modal from '../../atoms/Modal';
+import useModal from '../../../utils/hooks/useModal';
+import { useFormik } from 'formik';
+import api from '../../../api';
 
 export interface tableInfoProps{
   tableName: string;
@@ -26,6 +30,7 @@ interface MainTableProps {
 
 const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo }) => {
   const dispatch = useAppDispatch();
+  const [isShowingModal, toggleModal] = useModal();
   const [tab, setTab] = useState<MainTableFile>();
   const [searchString, setSearchString] = useState("");
   const [path, setPath] = useState<MainTableFile[]>([])
@@ -113,8 +118,77 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo }) => {
     getPaginationRowModel: getPaginationRowModel(),
   });
 
+  const onSubmitFolder = (values: IFolderInfo) => {
+    const fullInfo:ICreateFolder = {
+      page: "library",
+      folderInfo: values
+    }
+    api.files.createFolder(fullInfo)
+  }
+
+  const onSubmitFile = (values: IFileInfo) => {
+    const fullInfo:ICreateFile = {
+      page: "library",
+      fileInfo: values
+    }
+    console.log(fullInfo)
+    // api.files.createFile(fullInfo)
+    const formData = new FormData();
+    formData.append('fileRequest', JSON.stringify(values.fileRequest))
+    values.files.forEach((file) => {
+      formData.append("files", file)
+    })
+    const fullInfo2:ICreateFile = {
+      page: "library",
+      fileInfo: formData
+    }
+    api.files.createFile(fullInfo2)
+  }
+
+  const createFolder = useFormik({
+    initialValues: {
+      path: "",
+      author: "",
+      name: ""
+    },
+    onSubmit: onSubmitFolder
+  })
+
+  const createFile = useFormik({
+    initialValues: {
+      fileRequest: {
+        path: "",
+        author: "",
+      },
+      files: []
+    },
+    onSubmit: onSubmitFile
+  })
+
   return (
     <>
+    <Modal show={isShowingModal} onCloseButtonClick={toggleModal}>
+      <>
+      <form onSubmit={createFolder.handleSubmit}>
+      <input placeholder='path' name='path' value={createFolder.values.path} onChange={createFolder.handleChange}/>
+      <input placeholder='author' name='author' value={createFolder.values.author} onChange={createFolder.handleChange}/>
+      <input placeholder='name' name='name' value={createFolder.values.name} onChange={createFolder.handleChange}/>
+      <button type='submit'>Создать папку</button>
+      </form>
+      <br/>
+      <form onSubmit={createFile.handleSubmit}>
+      <input placeholder='path' name='fileRequest.path' value={createFile.values.fileRequest.path} onChange={createFile.handleChange}/>
+      <input placeholder='author' name='fileRequest.author' value={createFile.values.fileRequest.author} onChange={createFile.handleChange}/>
+      <input type="file" multiple={true} name="files" onChange={(e) => {
+          if(e.target.files){
+            const filesArray = Array.from(e.target.files);
+            createFile.setFieldValue('files', filesArray);  
+          }
+      }} />
+      <button type='submit'>Создать файл</button>
+      </form>
+      </>
+    </Modal>
     <div className="tabs__top tabs__top--column">
       <div className="tabs__top-items">
         {
@@ -123,9 +197,15 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo }) => {
           ))
         }
       </div>
-      <label className="search">
-        <input value={searchString} onChange={(e) => setSearchString(e.target.value)} className="search__input"/>
-      </label>
+      <div style={{width:"100%",display: "flex", justifyContent: "space-between"}}>
+        <label className="search">
+          <input value={searchString} onChange={(e) => setSearchString(e.target.value)} className="search__input"/>
+        </label>
+        <div>
+          <p onClick={() => toggleModal()}>Добавить папку</p>
+        </div>
+      </div>
+
     </div>
     <div className='tabs__content'>
       <div className='path-row'>
