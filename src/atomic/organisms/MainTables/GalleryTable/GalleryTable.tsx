@@ -48,7 +48,10 @@ const GalleryTable: React.FC = () => {
   }, [])
 
   const tableInfo: tableInfoProps = {
-    tableName: "Галерея"
+    tableName: "Галерея",
+    pageName: "gallery",
+    fileFields: ["path", "year"],
+    folderFields: ["name","path", "year"]
   }
 
   return (

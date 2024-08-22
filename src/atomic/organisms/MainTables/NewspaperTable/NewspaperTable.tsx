@@ -40,7 +40,10 @@ const NewspaperTable: React.FC = () => {
   }, [])
 
   const tableInfo: tableInfoProps = {
-    tableName: "Газета"
+    tableName: "Газета",
+    pageName: "paper",
+    fileFields: ["path"],
+    folderFields: ["name","path"]
   }
 
   return (

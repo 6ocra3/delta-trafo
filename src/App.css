@@ -816,11 +816,21 @@ body {
   font-weight: 700;
   position: relative;
 }
-.panel__btn::before {
+
+.panel__btn:hover{
+  background-color: transparent;
+  border: none;
+}
+
+.panel__btn:focus{
+  outline: none;
+}
+
+.add-section::before {
   content: "";
   width: 27px;
   height: 24px;
-  background-image: url("src/assets/images/icons/add-section.svg");
+  background-image: url("/src/assets/images/icons/add-section.svg");
   background-repeat: no-repeat;
   background-size: cover;
   position: absolute;

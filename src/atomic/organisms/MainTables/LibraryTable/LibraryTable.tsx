@@ -41,13 +41,19 @@ import { tableInfoProps } from '../../../molecules/MainTable/MainTable';
             type = "Папка"
             break
           case 1:
-            type = "Текст"
+            type = "Изображение"
+            break
+          case 2:
+              type = "Видео"
+              break
+          case 3:
+            type = "Аудио"
             break
           case 4:
             type = "Изображение"
             break
           case 5:
-            type = "Код"
+            type = "Программа"
         }
         return(<>{type}</>)
       },
@@ -66,7 +72,10 @@ const LibraryTable: React.FC = () => {
   }, [])
 
   const tableInfo: tableInfoProps = {
-    tableName: "Библиотека"
+    tableName: "Библиотека",
+    pageName: "library",
+    fileFields: ["path", "author"],
+    folderFields: ["name","path", "author"]
   }
 
   return (

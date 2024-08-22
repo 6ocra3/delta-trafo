@@ -16,9 +16,14 @@ import Modal from '../../atoms/Modal';
 import useModal from '../../../utils/hooks/useModal';
 import { useFormik } from 'formik';
 import api from '../../../api';
+import { FileFields, FolderFields } from '../CreateFileFolderForm/CreateFileFolderForm';
+import { CreateFileFolderform } from '../CreateFileFolderForm';
 
 export interface tableInfoProps{
   tableName: string;
+  pageName: string;
+  folderFields: FolderFields[];
+  fileFields: FileFields[];
 }
 
 interface MainTableProps {
@@ -118,76 +123,10 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo }) => {
     getPaginationRowModel: getPaginationRowModel(),
   });
 
-  const onSubmitFolder = (values: IFolderInfo) => {
-    const fullInfo:ICreateFolder = {
-      page: "library",
-      folderInfo: values
-    }
-    api.files.createFolder(fullInfo)
-  }
-
-  const onSubmitFile = (values: IFileInfo) => {
-    const fullInfo:ICreateFile = {
-      page: "library",
-      fileInfo: values
-    }
-    console.log(fullInfo)
-    // api.files.createFile(fullInfo)
-    const formData = new FormData();
-    formData.append('fileRequest', JSON.stringify(values.fileRequest))
-    values.files.forEach((file) => {
-      formData.append("files", file)
-    })
-    const fullInfo2:ICreateFile = {
-      page: "library",
-      fileInfo: formData
-    }
-    api.files.createFile(fullInfo2)
-  }
-
-  const createFolder = useFormik({
-    initialValues: {
-      path: "",
-      author: "",
-      name: ""
-    },
-    onSubmit: onSubmitFolder
-  })
-
-  const createFile = useFormik({
-    initialValues: {
-      fileRequest: {
-        path: "",
-        author: "",
-      },
-      files: []
-    },
-    onSubmit: onSubmitFile
-  })
-
   return (
     <>
     <Modal show={isShowingModal} onCloseButtonClick={toggleModal}>
-      <>
-      <form onSubmit={createFolder.handleSubmit}>
-      <input placeholder='path' name='path' value={createFolder.values.path} onChange={createFolder.handleChange}/>
-      <input placeholder='author' name='author' value={createFolder.values.author} onChange={createFolder.handleChange}/>
-      <input placeholder='name' name='name' value={createFolder.values.name} onChange={createFolder.handleChange}/>
-      <button type='submit'>Создать папку</button>
-      </form>
-      <br/>
-      <form onSubmit={createFile.handleSubmit}>
-      <input placeholder='path' name='fileRequest.path' value={createFile.values.fileRequest.path} onChange={createFile.handleChange}/>
-      <input placeholder='author' name='fileRequest.author' value={createFile.values.fileRequest.author} onChange={createFile.handleChange}/>
-      <input type="file" multiple={true} name="files" onChange={(e) => {
-          if(e.target.files){
-            const filesArray = Array.from(e.target.files);
-            createFile.setFieldValue('files', filesArray);  
-          }
-      }} />
-      <button type='submit'>Создать файл</button>
-      </form>
-      </>
+      <CreateFileFolderform pageName={tableInfo.pageName} folderFields={tableInfo.folderFields} fileFields={tableInfo.fileFields}/>
     </Modal>
     <div className="tabs__top tabs__top--column">
       <div className="tabs__top-items">
@@ -201,8 +140,8 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo }) => {
         <label className="search">
           <input value={searchString} onChange={(e) => setSearchString(e.target.value)} className="search__input"/>
         </label>
-        <div>
-          <p onClick={() => toggleModal()}>Добавить папку</p>
+        <div style={{display: "flex", alignItems: "center"}}>
+        <button className="panel__btn add-section" onClick={() => toggleModal()} >Добавить раздел</button>
         </div>
       </div>
 

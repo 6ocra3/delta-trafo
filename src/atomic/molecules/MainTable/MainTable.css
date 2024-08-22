@@ -33,8 +33,3 @@ th, tr{
     display: flex;
     gap: 8px;
 }
-
-input{
-    background-color: white;
-    color: black;
-}

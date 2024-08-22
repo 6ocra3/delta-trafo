@@ -59,5 +59,5 @@ export interface IFileInfo{
 
 export interface ICreateFile{
     page: string,
-    fileInfo: any
+    fileInfo: FormData
 }
