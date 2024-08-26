@@ -1,12 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../api";
-import { IDownloadFile, IGalleryFile, ILibraryFile, INewspaperFile, MainTableFile } from "../../api/files/types";
+import { IDownloadFile, IGalleryFile, IKnowledgeBase, ILibraryFile, INewspaperFile, MainTableFile } from "../../api/files/types";
 
 export interface FilesState {
     filesData: {
         library: ILibraryFile | null;
         gallery: IGalleryFile | null;
         newspaper: INewspaperFile | null;
+        knowledgeBase: IKnowledgeBase[] | null;
     }
 }
 
@@ -60,6 +61,20 @@ export const getNewspaperFiles = createAsyncThunk<
   }
 });
 
+export const getKnowledgeBase = createAsyncThunk<
+  IKnowledgeBase[],
+  undefined,
+  { rejectValue: string }
+>("files/knowledgeBase", async (_, { rejectWithValue }) => {
+  try {
+    const {data} = await api.files.getKnowledgeBase()
+    return data;
+  } catch (error: unknown) {
+    console.error(error);
+    throw rejectWithValue("Не удалось загрузить файлы газеты");
+  }
+});
+
 export const downloadFiles = createAsyncThunk<
   Blob,
   IDownloadFile,
@@ -79,6 +94,7 @@ const initialState: FilesState = {
         library: null,
         gallery: null,
         newspaper: null,
+        knowledgeBase: null
     }
 }
 
@@ -88,6 +104,12 @@ const filesSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
+        .addCase(getKnowledgeBase.fulfilled, (state, action) => {    
+          state.filesData = {
+            ...state.filesData,
+            knowledgeBase: action.payload,
+          };
+        })
         .addCase(getLibraryFiles.fulfilled, (state, action) => {    
             state.filesData = {
               ...state.filesData,

@@ -45,7 +45,13 @@ export interface IFolderInfo{
         name?: string,
         isBase: boolean
     }
+}
 
+export interface IKnowledgeBase{
+    name: string,
+    imageUrl: string,
+    page: "paper" | "library" | "gallery",
+    folderId: number
 }
 
 export interface ICreateFolder{
