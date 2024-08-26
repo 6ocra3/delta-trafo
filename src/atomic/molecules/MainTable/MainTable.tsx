@@ -6,7 +6,7 @@ PaginationState} from '@tanstack/react-table';
 import "./MainTable.css"
 import prev from "/src/assets/images/icons/arrow-prev.svg"
 import next from "/src/assets/images/icons/arrow-next.svg"
-import { ICreateFile, ICreateFolder, IFileInfo, IFolderInfo, IGalleryFile, ILibraryFile, INewspaperFile, MainTableFile } from '../../../api/files/types';
+import { MainTableFile } from '../../../api/files/types';
 
 import arrowDown from "/src/assets/images/icons/arrow-down.svg"
 
@@ -14,8 +14,6 @@ import { downloadFiles } from '../../../store/slices/files';
 import { useAppDispatch } from '../../../store';
 import Modal from '../../atoms/Modal';
 import useModal from '../../../utils/hooks/useModal';
-import { useFormik } from 'formik';
-import api from '../../../api';
 import { FileFields, FolderFields } from '../CreateFileFolderForm/CreateFileFolderForm';
 import { CreateFileFolderform } from '../CreateFileFolderForm';
 

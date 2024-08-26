@@ -37,15 +37,20 @@ export interface IDownloadFile{
 }
 
 export interface IFolderInfo{
-    path?: string,
-    author?: string,
-    year?: number,
-    name?: string
+    file?: Blob,
+    pathRequest: {
+        path?: string,
+        author?: string,
+        year?: number,
+        name?: string,
+        isBase: boolean
+    }
+
 }
 
 export interface ICreateFolder{
     page: string,
-    folderInfo: IFolderInfo
+    folderInfo: FormData
 }
 
 export interface IFileInfo{

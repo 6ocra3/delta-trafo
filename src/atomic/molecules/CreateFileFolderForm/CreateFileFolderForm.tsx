@@ -17,9 +17,16 @@ interface CreateFileFolderForm {
 const CreateFileFolderForm: React.FC<CreateFileFolderForm> = ({ pageName, folderFields, fileFields }) => {
 
     const onSubmitFolder = (values: IFolderInfo) => {
-        const fullInfo:ICreateFolder = {
+      const formData = new FormData()
+      const pathRequestBlob = new Blob([JSON.stringify(values.pathRequest)], { type: 'application/json' });
+      formData.append("pathRequest", pathRequestBlob) 
+      if(values.file){
+        formData.append("file", values.file) 
+      }
+      console.log(values)
+      const fullInfo:ICreateFolder = {
           page: pageName,
-          folderInfo: values
+          folderInfo: formData
         }
         api.files.createFolder(fullInfo)
       }
@@ -40,10 +47,15 @@ const CreateFileFolderForm: React.FC<CreateFileFolderForm> = ({ pageName, folder
     
       const createFolder = useFormik({
         initialValues: {
-          path: "",
-          author: "",
-          name: "",
-          year: undefined,
+          file: undefined,
+          pathRequest: {
+            path: "",
+            author: "",
+            name: "",
+            year: undefined,
+            isBase: false,
+          }
+
         },
         onSubmit: onSubmitFolder
       })
@@ -66,10 +78,24 @@ const CreateFileFolderForm: React.FC<CreateFileFolderForm> = ({ pageName, folder
     <form onSubmit={createFolder.handleSubmit}>
         {folderFields.map((name) => {
             return(
-                <input placeholder={name} name={name} value={createFolder.values[name]} onChange={createFolder.handleChange}/>
+                <input placeholder={name} name={`pathRequest.${name}`} value={createFolder.values.pathRequest[name]} onChange={createFolder.handleChange}/>
             )
         })}
-    <button className='panel__btn' type='submit'>Создать папку</button>
+        <label>
+          <input
+            type="checkbox"
+            name="pathRequest.isBase"
+            checked={createFolder.values.pathRequest.isBase}
+            onChange={createFolder.handleChange}
+          />
+          Добавить папку в "Базу знаний"
+        </label>
+        <input type="file" multiple={false} name="file"  onChange={(e) => {
+        if(e.target.files){
+          createFolder.setFieldValue('file', e.target.files[0]);  
+        }
+        }}/>
+        <button className='panel__btn' type='submit'>Создать папку</button>
     </form>
     <br/>
     <h3>Добавление файла</h3>
