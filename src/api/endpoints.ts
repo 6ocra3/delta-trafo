@@ -14,5 +14,6 @@ export const enum FilesEndpoints {
     GET_KNOWLEDGE_BASE = "/delta/path-pages/base",
     DOWNLOAD_FILE = "/delta/path-pages",
     CREATE_FOLDER = "/delta/path-pages/",
-    CREATE_FILE = "/delta/path-pages/"
+    CREATE_FILE = "/delta/path-pages/",
+    DELETE_FILE = "/delta/path-pages",
 }

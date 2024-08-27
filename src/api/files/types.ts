@@ -1,7 +1,10 @@
-enum FILETYPES{
+export enum FILETYPES{
     Folder = 0,
+    Image,
+    Video,
     Audio,
-    Text
+    Text,
+    Code
 }
 
 export interface IBaseFile{
@@ -9,10 +12,10 @@ export interface IBaseFile{
     path: string,
     id: number,
     isMeta: boolean | undefined,
+    type: FILETYPES,
 }
 
 export interface ILibraryFile extends IBaseFile{
-    type: FILETYPES,
     author: string,
     files: ILibraryFile[],
     folders: ILibraryFile[]
@@ -73,4 +76,9 @@ export interface IFileInfo{
 export interface ICreateFile{
     page: string,
     fileInfo: FormData
+}
+
+export interface IDeleteFile{
+    page: string,
+    fileId: number
 }

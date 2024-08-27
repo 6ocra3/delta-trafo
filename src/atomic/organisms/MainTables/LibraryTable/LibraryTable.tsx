@@ -50,7 +50,7 @@ import { tableInfoProps } from '../../../molecules/MainTable/MainTable';
             type = "Аудио"
             break
           case 4:
-            type = "Изображение"
+            type = "Текст"
             break
           case 5:
             type = "Программа"

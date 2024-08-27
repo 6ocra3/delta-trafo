@@ -34,6 +34,11 @@ th, tr{
     gap: 8px;
 }
 
+.path-el{
+    display: flex;
+    gap: 8px;
+}
+
 .main_table--delete{
     opacity: 0;
     width: 10px;

@@ -6,7 +6,7 @@ PaginationState} from '@tanstack/react-table';
 import "./MainTable.css"
 import prev from "/src/assets/images/icons/arrow-prev.svg"
 import next from "/src/assets/images/icons/arrow-next.svg"
-import { MainTableFile } from '../../../api/files/types';
+import { FILETYPES, MainTableFile } from '../../../api/files/types';
 
 import arrowDown from "/src/assets/images/icons/arrow-down.svg"
 
@@ -16,6 +16,7 @@ import Modal from '../../atoms/Modal';
 import useModal from '../../../utils/hooks/useModal';
 import { FileFields, FolderFields } from '../CreateFileFolderForm/CreateFileFolderForm';
 import { CreateFileFolderform } from '../CreateFileFolderForm';
+import api from '../../../api';
 
 export interface tableInfoProps{
   tableName: string;
@@ -90,7 +91,6 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo }) => {
   useEffect(() => {
     if (root) {
       if(root !== path[path.length-1]){
-        console.log(root)
         setPath([...path, root])
       }
       const combinedData = [...(root.folders || []), ...(root.files || [])];
@@ -132,8 +132,12 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo }) => {
     }
   }
 
-  const onClickDelete = async (rowOriginal: any) => {
-    console.log(rowOriginal)
+  const onClickDelete = async (rowOriginal: MainTableFile) => {
+    if(rowOriginal.type == FILETYPES.Folder){
+
+    } else {
+      api.files.deleteFile({page: tableInfo.pageName, fileId:rowOriginal.id})
+    }
   }
 
   const goTo = (el: MainTableFile) => {
@@ -166,8 +170,8 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo }) => {
     <div className="tabs__top tabs__top--column">
       <div className="tabs__top-items">
         {
-          data.folders.map(el => (
-            <a className={["tabs__top-item",  JSON.stringify(el) === JSON.stringify(tab)  && "tabs__top-item--active"].join(" ")} onClick={() => {
+          data.folders.map((el, index) => (
+            <a key={index} className={["tabs__top-item",  JSON.stringify(el) === JSON.stringify(tab)  && "tabs__top-item--active"].join(" ")} onClick={() => {
               setTab(el); 
               setPath([])
               setRoot(el)
@@ -189,14 +193,14 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo }) => {
       <div className='path-row'>
         {path.length > 1 && path.map( (el: MainTableFile, i: number) => {
           return(
-            <>
-            <div key={i} onClick={() => goTo(el)}>
+            <span className='path-el' key={i}>
+            <div onClick={() => goTo(el)}>
               {i == 0 ? tableInfo.tableName : el.name}
             </div>
             <div>
               {i != path.length-1 && "->" }
             </div>
-            </>
+            </span>
           )
         })}
       </div>
@@ -236,7 +240,7 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo }) => {
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </td>
             ))}
-            <td onClick={(e) => {onClickDelete(row)}} className='main_table--delete'>
+            <td onClick={(e) => {onClickDelete(row.original)}} className='main_table--delete'>
               У
             </td>
           </tr>
