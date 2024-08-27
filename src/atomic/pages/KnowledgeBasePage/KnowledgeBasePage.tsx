@@ -1,19 +1,47 @@
 // src/components/LoginPage.tsx
 
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import Navbar from '../../organisms/Navbar';
 import intro from "/src/assets/images/intro/2.jpg"
 import { IntroComponent } from '../../molecules/IntroComponent';
-import t1 from "/src/assets/images/base/1.svg";
-import t2 from "/src/assets/images/base/2.svg";
-import t3 from "/src/assets/images/base/3.svg";
-import t4 from "/src/assets/images/base/4.svg";
-import t5 from "/src/assets/images/base/5.svg";
-import t6 from "/src/assets/images/base/6.svg";
-import t7 from "/src/assets/images/base/7.svg";
-import t8 from "/src/assets/images/base/8.svg";
+import { useAppDispatch, useAppSelector } from '../../../store';
+import { getKnowledgeBase, updateMainTableRootInfo } from '../../../store/slices/files';
+import { IKnowledgeBase } from '../../../api/files/types';
+import { useNavigate } from 'react-router-dom';
+
 
 const KnowledgeBasePage: React.FC = () => {
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const data = useAppSelector(state => state.files.filesData.knowledgeBase)
+
+  useEffect(() => {
+    console.log(data)
+  }, [data])
+
+  useEffect(() => {
+    dispatch(getKnowledgeBase())
+  }, [])
+
+  const onClickNavigate = (el: IKnowledgeBase) => {
+    dispatch(updateMainTableRootInfo({ page: el.page, folderId: el.folderId }))
+    switch (el.page){
+      case "gallery":
+        navigate('../gallery')
+        break;
+      case "library":
+        navigate('../library')
+        break;
+      case "paper": 
+        navigate('../newspaper')
+        break;
+    }
+
+    const container = document.querySelector('.wrapper');
+    container?.scrollTo(0, 0);
+
+  }
+
   return (
     <main className="main main--decor">
       <IntroComponent imageSrc={intro}/>
@@ -23,57 +51,14 @@ const KnowledgeBasePage: React.FC = () => {
             <Navbar/>
             <div className="base">
               <ul className="base__list">
-                <li className="base__item base__item--custom">
-                  <a className="base__item-link" href="#">
-                    <img className="base__item-img" src={t1} alt=""/>
-                    <h3 className="base__item-title">Пакет
-                      новичка</h3>
-                  </a>
-                </li>
-                <li className="base__item">
-                  <a className="base__item-link" href="#">
-                    <img className="base__item-img" src={t2} alt=""/>
-                    <h3 className="base__item-title">Конструирование
-                      и технологии</h3>
-                  </a>
-                </li>
-                <li className="base__item">
-                  <a className="base__item-link" href="#">
-                    <img className="base__item-img" src={t3} alt=""/>
-                    <h3 className="base__item-title">Производство</h3>
-                  </a>
-                </li>
-                <li className="base__item">
-                  <a className="base__item-link" href="#">
-                    <img className="base__item-img" src={t4} alt=""/>
-                    <h3 className="base__item-title">Общие знания</h3>
-                  </a>
-                </li>
-                <li className="base__item">
-                  <a className="base__item-link" href="#">
-                    <img className="base__item-img" src={t5} alt=""/>
-                    <h3 className="base__item-title">Продажи
-                      и маркетинг</h3>
-                  </a>
-                </li>
-                <li className="base__item">
-                  <a className="base__item-link" href="#">
-                    <img className="base__item-img" src={t6} alt=""/>
-                    <h3 className="base__item-title">1С:ERP</h3>
-                  </a>
-                </li>
-                <li className="base__item">
-                  <a className="base__item-link" href="#">
-                    <img className="base__item-img" src={t7} alt=""/>
-                    <h3 className="base__item-title">КТО</h3>
-                  </a>
-                </li>
-                <li className="base__item">
-                  <a className="base__item-link" href="#">
-                    <img className="base__item-img" src={t8} alt=""/>
-                    <h3 className="base__item-title">Справочник сотрудника</h3>
-                  </a>
-                </li>
+                {data && data.map(el => (
+                  <li onClick={() => onClickNavigate(el)}>
+                      <a className="base__item-link">
+                        <img className="base__item-img" src={el.imageUrl} alt=""/>
+                        <h3 className="base__item-title">{el.name}</h3>
+                    </a>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>

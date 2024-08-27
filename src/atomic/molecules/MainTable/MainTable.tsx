@@ -6,16 +6,14 @@ PaginationState} from '@tanstack/react-table';
 import "./MainTable.css"
 import prev from "/src/assets/images/icons/arrow-prev.svg"
 import next from "/src/assets/images/icons/arrow-next.svg"
-import { ICreateFile, ICreateFolder, IFileInfo, IFolderInfo, IGalleryFile, ILibraryFile, INewspaperFile, MainTableFile } from '../../../api/files/types';
+import { MainTableFile } from '../../../api/files/types';
 
 import arrowDown from "/src/assets/images/icons/arrow-down.svg"
 
-import { downloadFiles } from '../../../store/slices/files';
-import { useAppDispatch } from '../../../store';
+import { downloadFiles, updateMainTableRootInfo } from '../../../store/slices/files';
+import { useAppDispatch, useAppSelector } from '../../../store';
 import Modal from '../../atoms/Modal';
 import useModal from '../../../utils/hooks/useModal';
-import { useFormik } from 'formik';
-import api from '../../../api';
 import { FileFields, FolderFields } from '../CreateFileFolderForm/CreateFileFolderForm';
 import { CreateFileFolderform } from '../CreateFileFolderForm';
 
@@ -32,9 +30,29 @@ interface MainTableProps {
   tableInfo: tableInfoProps;
 }
 
+const dfs = (folder: MainTableFile, curPath: MainTableFile[], id: number): MainTableFile | undefined => {
+  for(let i = 0; i<folder.folders.length;i++){
+    let temp = folder.folders[i];
+    if(temp.isMeta){
+      continue
+    }
+    if(temp.id == id){
+      return temp;
+    } else {
+      curPath.push(temp)
+      let res: undefined | MainTableFile = dfs(temp, curPath, id);
+      if(res != undefined){
+        return res
+      }
+      curPath.pop()
+    }
+  }
+  return undefined;
+}
 
 const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo }) => {
   const dispatch = useAppDispatch();
+  const {page, folderId} = useAppSelector(state => state.files.filesData.mainTableRootInfo)
   const [isShowingModal, toggleModal] = useModal();
   const [tab, setTab] = useState<MainTableFile>();
   const [searchString, setSearchString] = useState("");
@@ -48,13 +66,26 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo }) => {
   });
 
   useEffect(() => {
-    setTab(data.folders[0])
-  }, [])
+    let res;
+    let newPath: MainTableFile[] = []
+    if(folderId != null && page == tableInfo.pageName){
+      res = dfs(data, newPath, folderId)
+    }
+    if(page !== tableInfo.pageName){
+      dispatch(updateMainTableRootInfo({page: null, folderId: null}))
+    }
+    if(res){
+      setTab(newPath.length ? newPath[0] : res)
+      setRoot(res)
+      setPath(newPath)
+    }
+    else {
+      setPath([])
+      setTab(data.folders[0])
+      setRoot(data.folders[0])
+    }
 
-  useEffect(() => {
-    setPath([])
-    setRoot(tab)
-  }, [tab])
+  }, [])
 
   useEffect(() => {
     if (root) {
@@ -136,7 +167,11 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo }) => {
       <div className="tabs__top-items">
         {
           data.folders.map(el => (
-            <a className={["tabs__top-item",  JSON.stringify(el) === JSON.stringify(tab)  && "tabs__top-item--active"].join(" ")} onClick={() => setTab(el)} href="#tab-2">{el.name} (<span>{el.folders.length+el.files.length}</span>)</a>
+            <a className={["tabs__top-item",  JSON.stringify(el) === JSON.stringify(tab)  && "tabs__top-item--active"].join(" ")} onClick={() => {
+              setTab(el); 
+              setPath([])
+              setRoot(el)
+            }}>{el.name} (<span>{el.folders.length+el.files.length}</span>)</a>
           ))
         }
       </div>

@@ -1,7 +1,7 @@
 import { AxiosPromise } from "axios";
 import { FilesEndpoints } from "../endpoints";
 import { axiosInstance } from "../instance";
-import { ICreateFile, ICreateFolder, IDownloadFile, IGalleryFile, ILibraryFile, INewspaperFile } from "./types";
+import { ICreateFile, ICreateFolder, IDownloadFile, IGalleryFile, IKnowledgeBase, ILibraryFile, INewspaperFile } from "./types";
 
 export const getLibraryFiles = (): AxiosPromise<ILibraryFile> =>
     axiosInstance.get(FilesEndpoints.GET_LIBRARY);
@@ -11,6 +11,9 @@ export const getGalleryFiles = (): AxiosPromise<IGalleryFile> =>
 
 export const getNewspaperFiles = (): AxiosPromise<INewspaperFile> =>
     axiosInstance.get(FilesEndpoints.GET_NEWSPAPER);
+
+export const getKnowledgeBase = (): AxiosPromise<IKnowledgeBase[]> => 
+    axiosInstance.get(FilesEndpoints.GET_KNOWLEDGE_BASE)
 
 export const downloadFiles = (params: IDownloadFile): AxiosPromise<Blob> =>
     axiosInstance.get(FilesEndpoints.DOWNLOAD_FILE + `/${params.page}/download/${params.fileId}`, {

@@ -7,6 +7,8 @@ enum FILETYPES{
 export interface IBaseFile{
     name: string,
     path: string,
+    id: number,
+    isMeta: boolean | undefined,
 }
 
 export interface ILibraryFile extends IBaseFile{
@@ -25,7 +27,7 @@ export interface IGalleryFile extends IBaseFile{
 
 export interface INewspaperFile extends IBaseFile{
     files: IGalleryFile[],
-    folders: IGalleryFile[]
+    folders: IGalleryFile[],
 }
 
 export type MainTableFile = ILibraryFile | IGalleryFile | INewspaperFile
@@ -37,15 +39,26 @@ export interface IDownloadFile{
 }
 
 export interface IFolderInfo{
-    path?: string,
-    author?: string,
-    year?: number,
-    name?: string
+    file?: Blob,
+    pathRequest: {
+        path?: string,
+        author?: string,
+        year?: number,
+        name?: string,
+        isBase: boolean
+    }
+}
+
+export interface IKnowledgeBase{
+    name: string,
+    imageUrl: string,
+    page: "paper" | "library" | "gallery",
+    folderId: number
 }
 
 export interface ICreateFolder{
     page: string,
-    folderInfo: IFolderInfo
+    folderInfo: FormData
 }
 
 export interface IFileInfo{
