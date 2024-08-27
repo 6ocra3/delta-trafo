@@ -1,23 +1,17 @@
 // src/components/LoginPage.tsx
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Navbar from '../../organisms/Navbar';
 import intro from "/src/assets/images/intro/2.jpg"
 import { IntroComponent } from '../../molecules/IntroComponent';
-import t1 from "/src/assets/images/base/1.svg";
-import t2 from "/src/assets/images/base/2.svg";
-import t3 from "/src/assets/images/base/3.svg";
-import t4 from "/src/assets/images/base/4.svg";
-import t5 from "/src/assets/images/base/5.svg";
-import t6 from "/src/assets/images/base/6.svg";
-import t7 from "/src/assets/images/base/7.svg";
-import t8 from "/src/assets/images/base/8.svg";
 import { useAppDispatch, useAppSelector } from '../../../store';
-import { getKnowledgeBase } from '../../../store/slices/files';
+import { getKnowledgeBase, updateMainTableRootInfo } from '../../../store/slices/files';
+import { IKnowledgeBase } from '../../../api/files/types';
+import { useNavigate } from 'react-router-dom';
 
 
 const KnowledgeBasePage: React.FC = () => {
-
+  const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const data = useAppSelector(state => state.files.filesData.knowledgeBase)
 
@@ -29,6 +23,25 @@ const KnowledgeBasePage: React.FC = () => {
     dispatch(getKnowledgeBase())
   }, [])
 
+  const onClickNavigate = (el: IKnowledgeBase) => {
+    dispatch(updateMainTableRootInfo({ page: el.page, folderId: el.folderId }))
+    switch (el.page){
+      case "gallery":
+        navigate('../gallery')
+        break;
+      case "library":
+        navigate('../library')
+        break;
+      case "paper": 
+        navigate('../newspaper')
+        break;
+    }
+
+    const container = document.querySelector('.wrapper');
+    container?.scrollTo(0, 0);
+
+  }
+
   return (
     <main className="main main--decor">
       <IntroComponent imageSrc={intro}/>
@@ -39,8 +52,8 @@ const KnowledgeBasePage: React.FC = () => {
             <div className="base">
               <ul className="base__list">
                 {data && data.map(el => (
-                  <li>
-                      <a className="base__item-link" href="#">
+                  <li onClick={() => onClickNavigate(el)}>
+                      <a className="base__item-link">
                         <img className="base__item-img" src={el.imageUrl} alt=""/>
                         <h3 className="base__item-title">{el.name}</h3>
                     </a>

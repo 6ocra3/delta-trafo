@@ -7,6 +7,8 @@ enum FILETYPES{
 export interface IBaseFile{
     name: string,
     path: string,
+    id: number,
+    isMeta: boolean | undefined,
 }
 
 export interface ILibraryFile extends IBaseFile{
@@ -25,7 +27,7 @@ export interface IGalleryFile extends IBaseFile{
 
 export interface INewspaperFile extends IBaseFile{
     files: IGalleryFile[],
-    folders: IGalleryFile[]
+    folders: IGalleryFile[],
 }
 
 export type MainTableFile = ILibraryFile | IGalleryFile | INewspaperFile
