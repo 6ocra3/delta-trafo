@@ -101,6 +101,10 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo }) => {
     }
   }
 
+  const onClickDelete = async (rowOriginal: any) => {
+    console.log(rowOriginal)
+  }
+
   const goTo = (el: MainTableFile) => {
     if (el !== path[path.length - 1]) {
       const newPath = path.slice(0, path.findIndex((item) => item === el) + 1);
@@ -186,6 +190,7 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo }) => {
       <tbody>
         {table.getRowModel().rows.map(row => (
           <tr key={row.id}
+          className='main_table--row'
           onDoubleClick={() => onRowDoubleClick?.(row.original)}
           >
             {row.getVisibleCells().map(cell => (
@@ -196,6 +201,9 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo }) => {
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </td>
             ))}
+            <td onClick={(e) => {onClickDelete(row)}} className='main_table--delete'>
+              У
+            </td>
           </tr>
         ))}
       </tbody>

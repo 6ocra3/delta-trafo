@@ -33,3 +33,12 @@ th, tr{
     display: flex;
     gap: 8px;
 }
+
+.main_table--delete{
+    opacity: 0;
+    width: 10px;
+}
+
+.main_table--row:hover .main_table--delete{
+    opacity: 1;
+}
