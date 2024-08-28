@@ -3,7 +3,7 @@ import './Header.scss';
 import logo from "/src/assets/images/icons/logo.svg"
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { useNavigate } from 'react-router-dom';
-import { logoutUser } from '../../../store/slices/auth';
+import { LocalStorageTokenKey, logoutUser } from '../../../store/slices/auth';
 import { getUser } from '../../../store/slices/user';
 
 const Header: React.FC = () => {
@@ -16,7 +16,7 @@ const Header: React.FC = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem(LocalStorageTokenKey);
         if (!token) {
           throw new Error("JWT токен не найден");
         }

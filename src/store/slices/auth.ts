@@ -8,6 +8,8 @@ export interface AuthState {
     }
 }
 
+export const LocalStorageTokenKey = "delta-trafo-token"
+
 export const loginUser = createAsyncThunk<
   ILoginResponse,
   ILoginRequest,
@@ -38,7 +40,7 @@ export const logoutUser = createAsyncThunk<
 
 const initialState: AuthState = {
     authData: {
-        token: localStorage.getItem("token"),
+        token: localStorage.getItem(LocalStorageTokenKey),
     }
 }
 
@@ -49,7 +51,7 @@ const authSlice = createSlice({
     extraReducers: (builder) => {
         builder
         .addCase(loginUser.fulfilled, (state, action) => {
-            localStorage.setItem("token", action.payload.token);
+            localStorage.setItem(LocalStorageTokenKey, action.payload.token);
     
             state.authData = {
               ...state.authData,
@@ -57,7 +59,7 @@ const authSlice = createSlice({
             };
         })
         .addCase(logoutUser.fulfilled, (state) => {
-            localStorage.removeItem("token");
+            localStorage.removeItem(LocalStorageTokenKey);
     
             state.authData = {
               ...state.authData,

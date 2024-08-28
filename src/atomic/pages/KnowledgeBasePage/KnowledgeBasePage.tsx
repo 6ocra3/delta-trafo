@@ -36,10 +36,6 @@ const KnowledgeBasePage: React.FC = () => {
         navigate('../newspaper')
         break;
     }
-
-    const container = document.querySelector('.wrapper');
-    container?.scrollTo(0, 0);
-
   }
 
   return (
