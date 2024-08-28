@@ -50,7 +50,7 @@ const CreateFileFolderForm: React.FC<CreateFileFolderForm> = ({ pageName, folder
         initialValues: {
           file: undefined,
           pathRequest: {
-            path: "",
+            path: presetPath,
             author: "",
             name: "",
             year: undefined,
@@ -64,7 +64,7 @@ const CreateFileFolderForm: React.FC<CreateFileFolderForm> = ({ pageName, folder
       const createFile = useFormik({
         initialValues: {
           fileRequest: {
-            path: "",
+            path: presetPath,
             author: "",
             year: undefined,
           },

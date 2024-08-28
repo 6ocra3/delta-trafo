@@ -31,6 +31,20 @@ interface MainTableProps {
   tableInfo: tableInfoProps;
 }
 
+const getPathForCreate = (curRoot: MainTableFile): string => {
+  if(curRoot.path.length == 0){
+    return ""
+  }
+  console.log(curRoot.path)
+  const temp = curRoot.path.split("/").slice(1).join("/")
+  var itog = ""
+  if(temp.length > 0){
+    itog += "/";
+  }
+  itog += temp + "/" + curRoot.name;
+  return itog
+}
+
 const dfs = (folder: MainTableFile, curPath: MainTableFile[], id: number): MainTableFile | undefined => {
   for(let i = 0; i<folder.folders.length;i++){
     let temp = folder.folders[i];
@@ -170,7 +184,7 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo }) => {
   return (
     <>
     <Modal show={isShowingModal} onCloseButtonClick={toggleModal}>
-      <CreateFileFolderform presetPath={root?.path ? root.path : ""} pageName={tableInfo.pageName} folderFields={tableInfo.folderFields} fileFields={tableInfo.fileFields}/>
+      <CreateFileFolderform presetPath={root ? getPathForCreate(root) : ""} pageName={tableInfo.pageName} folderFields={tableInfo.folderFields} fileFields={tableInfo.fileFields}/>
     </Modal>
     <div className="tabs__top tabs__top--column">
       <div className="tabs__top-items">
