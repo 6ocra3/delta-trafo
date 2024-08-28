@@ -9,7 +9,7 @@ import next from "/src/assets/images/icons/arrow-next.svg"
 import { FILETYPES, MainTableFile } from '../../../api/files/types';
 
 import arrowDown from "/src/assets/images/icons/arrow-down.svg"
-
+import deleteIcon from "/src/assets/images/icons/delete.svg"
 import { downloadFiles, updateMainTableRootInfo } from '../../../store/slices/files';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import Modal from '../../atoms/Modal';
@@ -81,9 +81,14 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo }) => {
       setPath(newPath)
     }
     else {
+      const isAdmin = false
       setPath([])
       setTab(data.folders[0])
-      setRoot(data.folders[0])
+      if(isAdmin){
+        setRoot(data)
+      } else {
+        setRoot(data.folders[0])
+      }
     }
 
   }, [])
@@ -93,7 +98,7 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo }) => {
       if(root !== path[path.length-1]){
         setPath([...path, root])
       }
-      const combinedData = [...(root.folders || []), ...(root.files || [])];
+      const combinedData = [...(root.folders.filter(el => el.isMeta != true) || []), ...(root.files || [])];
       setSearchString("")
       setTableData(combinedData);
     }
@@ -134,7 +139,7 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo }) => {
 
   const onClickDelete = async (rowOriginal: MainTableFile) => {
     if(rowOriginal.type == FILETYPES.Folder){
-
+      api.files.deleteFolder({folderId: rowOriginal.id})
     } else {
       api.files.deleteFile({page: tableInfo.pageName, fileId:rowOriginal.id})
     }
@@ -165,7 +170,7 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo }) => {
   return (
     <>
     <Modal show={isShowingModal} onCloseButtonClick={toggleModal}>
-      <CreateFileFolderform pageName={tableInfo.pageName} folderFields={tableInfo.folderFields} fileFields={tableInfo.fileFields}/>
+      <CreateFileFolderform presetPath={root?.path ? root.path : ""} pageName={tableInfo.pageName} folderFields={tableInfo.folderFields} fileFields={tableInfo.fileFields}/>
     </Modal>
     <div className="tabs__top tabs__top--column">
       <div className="tabs__top-items">
@@ -197,7 +202,7 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo }) => {
             <div onClick={() => goTo(el)}>
               {i == 0 ? tableInfo.tableName : el.name}
             </div>
-            <div>
+            <div style={{cursor: "default"}}>
               {i != path.length-1 && "->" }
             </div>
             </span>
@@ -241,7 +246,7 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo }) => {
               </td>
             ))}
             <td onClick={(e) => {onClickDelete(row.original)}} className='main_table--delete'>
-              У
+              <img src={deleteIcon}/>
             </td>
           </tr>
         ))}

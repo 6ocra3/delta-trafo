@@ -7,3 +7,37 @@ h3{
     margin-bottom: 10px;
     // color: black;
 }
+
+.input__checkbox {
+    border: 2px solid #ccc;
+  }
+  
+  .input__checkbox:checked {
+    border: 2px solid #F58220; 
+  }
+  
+
+  .input__checkbox {
+    appearance: none;
+    width: 20px; 
+    height: 20px;
+    border: 1.5px solid #ccc; 
+    border-radius: 4px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  
+
+  .input__checkbox:checked {
+    border-color: #F58220;
+    background-color: #F58220;
+  }
+  
+
+  .label__checkbox{
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    align-items: center;
+    margin-bottom: 0;
+  }

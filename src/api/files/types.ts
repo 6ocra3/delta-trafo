@@ -82,3 +82,8 @@ export interface IDeleteFile{
     page: string,
     fileId: number
 }
+
+
+export interface IDeleteFolder{
+    folderId: number
+}

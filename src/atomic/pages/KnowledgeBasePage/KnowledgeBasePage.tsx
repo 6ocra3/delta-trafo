@@ -51,8 +51,8 @@ const KnowledgeBasePage: React.FC = () => {
             <Navbar/>
             <div className="base">
               <ul className="base__list">
-                {data && data.map(el => (
-                  <li onClick={() => onClickNavigate(el)}>
+                {data && data.map((el, index) => (
+                  <li key={index} onClick={() => onClickNavigate(el)}>
                       <a className="base__item-link">
                         <img className="base__item-img" src={el.imageUrl} alt=""/>
                         <h3 className="base__item-title">{el.name}</h3>

@@ -12,9 +12,10 @@ interface CreateFileFolderForm {
   pageName: string;
   folderFields: FolderFields[];
   fileFields: FileFields[];
+  presetPath: string;
 }
 
-const CreateFileFolderForm: React.FC<CreateFileFolderForm> = ({ pageName, folderFields, fileFields }) => {
+const CreateFileFolderForm: React.FC<CreateFileFolderForm> = ({ pageName, folderFields, fileFields, presetPath }) => {
 
     const onSubmitFolder = (values: IFolderInfo) => {
       const formData = new FormData()
@@ -76,33 +77,37 @@ const CreateFileFolderForm: React.FC<CreateFileFolderForm> = ({ pageName, folder
     <>
     <h3>Добавление папки</h3>
     <form onSubmit={createFolder.handleSubmit}>
-        {folderFields.map((name) => {
+        {folderFields.map((name, index) => {
             return(
-                <input placeholder={name} name={`pathRequest.${name}`} value={createFolder.values.pathRequest[name]} onChange={createFolder.handleChange}/>
+                <input key={index} placeholder={name} name={`pathRequest.${name}`} value={createFolder.values.pathRequest[name]} onChange={createFolder.handleChange}/>
             )
         })}
-        <label>
+        <label className="label__checkbox">
           <input
             type="checkbox"
             name="pathRequest.isBase"
+            className="input__checkbox"
             checked={createFolder.values.pathRequest.isBase}
             onChange={createFolder.handleChange}
           />
           Добавить папку в "Базу знаний"
         </label>
-        <input type="file" multiple={false} name="file"  onChange={(e) => {
-        if(e.target.files){
-          createFolder.setFieldValue('file', e.target.files[0]);  
+        {createFolder.values.pathRequest.isBase &&
+        <input type="file" multiple={false} name="file"   onChange={(e) => {
+          if(e.target.files){
+            createFolder.setFieldValue('file', e.target.files[0]);  
+          }
+          }}/>
         }
-        }}/>
+
         <button className='panel__btn' type='submit'>Создать папку</button>
     </form>
     <br/>
     <h3>Добавление файла</h3>
     <form onSubmit={createFile.handleSubmit}>
-    {fileFields.map((name) => {
+    {fileFields.map((name, index) => {
             return(
-                <input placeholder={name} name={`fileRequest.${name}`} value={createFile.values.fileRequest[name]} onChange={createFile.handleChange}/>
+                <input key={index} placeholder={name} name={`fileRequest.${name}`} value={createFile.values.fileRequest[name]} onChange={createFile.handleChange}/>
             )
     })}
     <input type="file" multiple={true} name="files" onChange={(e) => {
