@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import './Header.scss';
 import logo from "/src/assets/images/icons/logo.svg"
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { useNavigate } from 'react-router-dom';
