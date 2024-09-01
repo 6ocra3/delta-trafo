@@ -2,38 +2,56 @@ import React, { useEffect } from 'react';
 import logo from "/src/assets/images/icons/logo.svg"
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { useNavigate } from 'react-router-dom';
-import { logoutUser } from '../../../store/slices/auth';
+import { getTokenFromStorage, logoutUser } from '../../../store/slices/auth';
 import { getUser } from '../../../store/slices/user';
 
 const MyHeader: React.FC = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
+  const { token } = useAppSelector( (state) => state.auth.authData)
   const { email } = useAppSelector( (state) => state.user.userData)
 
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     try {
+  //       let token;
+  //       dispatch(getTokenFromStorage())
+  //       if (typeof window !== 'undefined') {
+  //         await new Promise((resolve) => setTimeout(resolve, 100));
+  //         token = localStorage.getItem("token");
+  //         console.log(4321, token)
+  //         if (!token) {
+  //           throw new Error("JWT токен не найден");
+  //         }
+  //       }
+  //       await dispatch(getUser()).unwrap();      
+  //     } catch (error) {
+  //       console.error(error);
+  //       // navigate('/login', { replace: true });
+  //     }
+  //   };
+
+  //   fetchUser();
+  // }, [dispatch, navigate]);
+
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        let token;
-        console.log(1234, window)
+    dispatch(getTokenFromStorage())
+  }, [])
+
+  useEffect(() => {
+    try {
         if (typeof window !== 'undefined') {
-          await new Promise((resolve) => setTimeout(resolve, 100));
-          token = localStorage.getItem("token");
-          console.log(4321, token)
           if (!token) {
             throw new Error("JWT токен не найден");
           }
+          dispatch(getUser()).unwrap(); 
         }
-        await dispatch(getUser()).unwrap();      
       } catch (error) {
         console.error(error);
         // navigate('/login', { replace: true });
       }
-    };
-
-    fetchUser();
-  }, [dispatch, navigate]);
+  }, [token])
 
   const handleLogout = async () => {
     dispatch(logoutUser())

@@ -47,7 +47,12 @@ const initialState: AuthState = {
 const authSlice = createSlice({
     name: "auth",
     initialState,
-    reducers: {},
+    reducers: {
+      getTokenFromStorage(state){
+        const token = localStorage.getItem(LocalStorageTokenKey)
+        state.authData.token = token
+      }
+    },
     extraReducers: (builder) => {
         builder
         .addCase(loginUser.fulfilled, (state, action) => {
@@ -70,3 +75,4 @@ const authSlice = createSlice({
 })
 
 export const authReducer = authSlice.reducer;
+export const {getTokenFromStorage} = authSlice.actions
