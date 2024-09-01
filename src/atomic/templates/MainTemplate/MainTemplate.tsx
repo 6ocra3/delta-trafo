@@ -1,7 +1,7 @@
 // src/components/LoginPage.tsx
 
 import React, { useEffect } from 'react';
-import { Header } from '../../organisms/Header';
+// import { Header } from '../../organisms/Header';
 import { MyCoursesPage } from '../../pages/MyCoursesPage';
 import { Footer } from '../../organisms/Footer';
 import { KnowledgeBasePage } from '../../pages/KnowledgeBasePage';
@@ -21,7 +21,7 @@ const MainTemplate: React.FC = () => {
 
   return (
       <div className="wrapper">
-        <Header/>
+        {/* <Header/> */}
         <Routes>
           <Route path='courses' element={<MyCoursesPage/>} />
           <Route path='base' element={<KnowledgeBasePage/>} />
