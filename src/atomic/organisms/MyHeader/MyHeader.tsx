@@ -22,7 +22,7 @@ const MyHeader: React.FC = () => {
         await dispatch(getUser()).unwrap();      
       } catch (error) {
         console.error(error);
-        navigate('/login', { replace: true });
+        // navigate('/login', { replace: true });
       }
     };
 
