@@ -13,16 +13,26 @@ const MyHeader: React.FC = () => {
   const { email } = useAppSelector( (state) => state.user.userData)
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchUser = async (attempts: number = 3) => {
       try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          throw new Error("JWT токен не найден");
+        let token = localStorage.getItem("token");
+        console.log(token)
+        let currentAttempts = 0;
+
+        while (!token && currentAttempts < attempts) {
+          await new Promise((resolve) => setTimeout(resolve, 2000)); // Ждем 2 секунды перед новой попыткой
+          token = localStorage.getItem("token");
+          currentAttempts++;
         }
+
+        if (!token) {
+          throw new Error("JWT токен не найден после нескольких попыток");
+        }
+
         await dispatch(getUser()).unwrap();      
       } catch (error) {
         console.error(error);
-        // navigate('/login', { replace: true });
+        navigate('/login', { replace: true });
       }
     };
 
