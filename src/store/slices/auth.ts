@@ -52,7 +52,7 @@ const authSlice = createSlice({
         builder
         .addCase(loginUser.fulfilled, (state, action) => {
             localStorage.setItem(LocalStorageTokenKey, action.payload.token);
-    
+            console.log(localStorage.getItem(LocalStorageTokenKey))
             state.authData = {
               ...state.authData,
               token: action.payload.token,
