@@ -16,6 +16,7 @@ const MyHeader: React.FC = () => {
     const fetchUser = async () => {
       try {
         let token;
+        console.log(1234, window)
         if (typeof window !== 'undefined') {
           token = localStorage.getItem("token");
           if (!token) {
@@ -25,7 +26,7 @@ const MyHeader: React.FC = () => {
         await dispatch(getUser()).unwrap();      
       } catch (error) {
         console.error(error);
-        navigate('/login', { replace: true });
+        // navigate('/login', { replace: true });
       }
     };
 
