@@ -1,6 +1,6 @@
 import React from 'react';
 import './Header.scss';
-import logo from "/src/assets/images/icons/logo.svg"
+// import logo from "/src/assets/images/icons/logo.svg"
 // import { useAppDispatch, useAppSelector } from '../../../store';
 // import { useNavigate } from 'react-router-dom';
 // import { LocalStorageTokenKey, logoutUser } from '../../../store/slices/auth';
@@ -44,7 +44,7 @@ const Header: React.FC = () => {
           в корпоративный университет</h1>
         <div className="header__right">
           <a className="header__link logo" href="#">
-            <img className="header__img logo__img" src={logo} alt=""/>
+            {/* <img className="header__img logo__img" src={logo} alt=""/> */}
           </a>
           <div className="profile">
             <div className="profile__header">
