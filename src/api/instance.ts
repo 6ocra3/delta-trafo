@@ -3,7 +3,7 @@ import { LocalStorageTokenKey } from "../store/slices/auth";
 
 
 export const axiosInstance = axios.create({
-    baseURL: "http://localhost:8080",
+    baseURL: "https://delta-backend-7dox.onrender.com",
     headers: {
       "Access-Control-Allow-Methods": "*",
     },
