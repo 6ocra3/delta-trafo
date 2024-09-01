@@ -16,7 +16,7 @@ export const getKnowledgeBase = (): AxiosPromise<IKnowledgeBase[]> =>
     axiosInstance.get(FilesEndpoints.GET_KNOWLEDGE_BASE)
 
 export const downloadFiles = (params: IDownloadFile): AxiosPromise<Blob> =>
-    axiosInstance.get(FilesEndpoints.DOWNLOAD_FILE + `/${params.page}/download/${params.fileId}`, {
+    axiosInstance.get(FilesEndpoints.DOWNLOAD_FILE + `/download/${params.fileId}`, {
         responseType: 'blob'
 });
 
