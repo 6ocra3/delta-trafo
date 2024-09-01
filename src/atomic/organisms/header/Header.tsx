@@ -1,41 +1,41 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './Header.scss';
 import logo from "/src/assets/images/icons/logo.svg"
-import { useAppDispatch, useAppSelector } from '../../../store';
-import { useNavigate } from 'react-router-dom';
-import { LocalStorageTokenKey, logoutUser } from '../../../store/slices/auth';
-import { getUser } from '../../../store/slices/user';
+// import { useAppDispatch, useAppSelector } from '../../../store';
+// import { useNavigate } from 'react-router-dom';
+// import { LocalStorageTokenKey, logoutUser } from '../../../store/slices/auth';
+// import { getUser } from '../../../store/slices/user';
 
 const Header: React.FC = () => {
 
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  // const dispatch = useAppDispatch();
+  // const navigate = useNavigate();
 
-  const { email } = useAppSelector( (state) => state.user.userData)
+  // const { email } = useAppSelector( (state) => state.user.userData)
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const token = localStorage.getItem(LocalStorageTokenKey);
-        if (!token) {
-          throw new Error("JWT токен не найден");
-        }
-        await dispatch(getUser()).unwrap();      
-      } catch (error) {
-        console.error(error);
-        navigate('/login', { replace: true });
-      }
-    };
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     try {
+  //       const token = localStorage.getItem(LocalStorageTokenKey);
+  //       if (!token) {
+  //         throw new Error("JWT токен не найден");
+  //       }
+  //       await dispatch(getUser()).unwrap();      
+  //     } catch (error) {
+  //       console.error(error);
+  //       navigate('/login', { replace: true });
+  //     }
+  //   };
 
-    fetchUser();
-  }, [dispatch, navigate]);
+  //   fetchUser();
+  // }, [dispatch, navigate]);
 
-  const handleLogout = async () => {
-    dispatch(logoutUser())
-      .unwrap()
-      .then(() => navigate("/login", { replace: true }))
-      .catch((error) => console.error(error));
-  };
+  // const handleLogout = async () => {
+  //   dispatch(logoutUser())
+  //     .unwrap()
+  //     .then(() => navigate("/login", { replace: true }))
+  //     .catch((error) => console.error(error));
+  // };
 
   return (
     <header className="header">
@@ -48,7 +48,7 @@ const Header: React.FC = () => {
           </a>
           <div className="profile">
             <div className="profile__header">
-              <div className="profile__name">{ email }</div>
+              {/* <div className="profile__name">{ email }</div> */}
               <div className="profile__icon">
                 <span>ШЕ</span>
               </div>
@@ -62,7 +62,7 @@ const Header: React.FC = () => {
                   <a className="profile__list-link" href="#">Кабинет администратора</a>
                 </li>
                 <li className="profile__list-item">
-                  <a className="profile__list-link" onClick={handleLogout}>Выйти</a>
+                  {/* <a className="profile__list-link" onClick={handleLogout}>Выйти</a> */}
                 </li>
               </ul>
             </div>

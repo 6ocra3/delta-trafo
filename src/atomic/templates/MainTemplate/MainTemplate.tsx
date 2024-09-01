@@ -2,8 +2,8 @@
 
 import React, { useEffect } from 'react';
 import { Header } from '../../organisms/Header';
-import { MyCoursesPage } from '../../pages/MyCoursesPage';
 import { Footer } from '../../organisms/Footer';
+import { MyCoursesPage } from '../../pages/MyCoursesPage';
 import { KnowledgeBasePage } from '../../pages/KnowledgeBasePage';
 import { LibraryPage } from '../../pages/LibraryPage';
 import { GalleryPage } from '../../pages/GalleryPage';
