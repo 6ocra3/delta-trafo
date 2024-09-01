@@ -19,6 +19,7 @@ const MyHeader: React.FC = () => {
         console.log(1234, window)
         if (typeof window !== 'undefined') {
           token = localStorage.getItem("token");
+          console.log(4321, token)
           if (!token) {
             throw new Error("JWT токен не найден");
           }
