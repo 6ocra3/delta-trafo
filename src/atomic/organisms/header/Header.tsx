@@ -1,76 +1,49 @@
-import React, { useEffect } from 'react';
-import './Header.scss';
-import logo from "/src/assets/images/icons/logo.svg"
-import { useAppDispatch, useAppSelector } from '../../../store';
-import { useNavigate } from 'react-router-dom';
-import { logoutUser } from '../../../store/slices/auth';
-import { getUser } from '../../../store/slices/user';
+// src/components/LoginPage.tsx
 
-const Header: React.FC = () => {
+import React from 'react';
+// import './Footer.scss';
 
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
-  const { email } = useAppSelector( (state) => state.user.userData)
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          throw new Error("JWT токен не найден");
-        }
-        await dispatch(getUser()).unwrap();      
-      } catch (error) {
-        console.error(error);
-        navigate('/login', { replace: true });
-      }
-    };
-
-    fetchUser();
-  }, [dispatch, navigate]);
-
-  const handleLogout = async () => {
-    dispatch(logoutUser())
-      .unwrap()
-      .then(() => navigate("/login", { replace: true }))
-      .catch((error) => console.error(error));
-  };
+const Footer: React.FC = () => {
 
   return (
-    <header className="header">
-      <div className="header__inner">
-        <h1 className="header__title">добро пожаловать<br/>
-          в корпоративный университет</h1>
-        <div className="header__right">
-          <a className="header__link logo" href="#">
-            <img className="header__img logo__img" src={logo} alt=""/>
-          </a>
-          <div className="profile">
-            <div className="profile__header">
-              <div className="profile__name">{ email }</div>
-              <div className="profile__icon">
-                <span>ШЕ</span>
+    <footer className="footer">
+      <div className="container container--footer">
+        <div className="footer__inner">
+          <div className="footer__content">
+            <div className="footer__info">
+              <p>Корпоративный университет “Дельта Трафо” - обучающая платформа, созданная исключительно для внутреннего
+                использования
+                сотрудниками компании.
+                Вся выложенная на этом ресурсе информация является интеллектуальной собственностью ООО “Дельта Трафо” и
+                запрещается к
+                распространению среди
+                лиц не являющихся сотрудниками компании.
+              </p>
+              <p>Не для коммерческого использования.</p>
+            </div>
+            <div className="footer__social">
+              <div className="social">
+                <a className="social__link" href="#">
+                  <img className="social__img" src="src/assets/images/icons/vk.svg" alt=""/>
+                </a>
+                <a className="social__link" href="#">
+                  <img className="social__img" src="src/assets/images/icons/site.svg" alt=""/>
+                </a>
+              </div>
+              <div className="footer__social-text">По вопросам обучения и работы Корпоративного
+                Университета обращайтесь в отдел управления
+                персоналом
               </div>
             </div>
-            <div className="profile__body">
-              <ul className="profile__list">
-                <li className="profile__list-item">
-                  <a className="profile__list-link" href="#">Мой профиль</a>
-                </li>
-                <li className="profile__list-item">
-                  <a className="profile__list-link" href="#">Кабинет администратора</a>
-                </li>
-                <li className="profile__list-item">
-                  <a className="profile__list-link" onClick={handleLogout}>Выйти</a>
-                </li>
-              </ul>
-            </div>
+          </div>
+          <div className="footer__copy">
+            <img src="src/assets/images/icons/copy.svg" alt=""/>
+            2023 Корпоративный университет “Дельта Трафо”
           </div>
         </div>
       </div>
-    </header>
+    </footer>
   );
 };
 
-export default Header;
+export default Footer;
