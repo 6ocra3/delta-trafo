@@ -95,7 +95,7 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo }) => {
       setPath(newPath)
     }
     else {
-      const isAdmin = true
+      const isAdmin = false
       setPath([])
       setTab(data.folders[0])
       if(isAdmin){
