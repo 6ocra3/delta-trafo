@@ -1,6 +1,6 @@
 // src/components/LoginPage.tsx
 
-import React, { useState } from 'react';
+import React from 'react';
 
 import intro from "/src/assets/images/intro/4.jpg";
 import Navbar from '../../organisms/Navbar';

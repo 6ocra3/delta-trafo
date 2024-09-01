@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { ILoginRequest, ILoginResponse } from "../../api/auth/types";
 import api from "../../api";
 
@@ -28,7 +28,7 @@ export const logoutUser = createAsyncThunk<
   string,
   undefined,
   { rejectValue: string }
->("auth/logout", async (_, { rejectWithValue, dispatch }) => {
+>("auth/logout", async (_, { rejectWithValue }) => {
   try {
     await api.auth.logout();
     return "";

@@ -13,7 +13,7 @@ const Modal: React.FC<ModalProps> = ({ show, onCloseButtonClick, children }) => 
     }
   
     return ReactDOM.createPortal(
-        <div onClick={(e) => {onCloseButtonClick()}} className="modal-wrapper">
+        <div onClick={() => {onCloseButtonClick()}} className="modal-wrapper">
           <div onClick={(e) => {e.stopPropagation()}} className="modal">
             <div className="body">
               {children}

@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import "./LibraryTable.scss"
 import { createColumnHelper, ColumnDef } from '@tanstack/react-table';
 import { MainTable } from '../../../molecules/MainTable';
-import folder from "/src/assets/images/icons/folder.svg"
 import { useAppDispatch, useAppSelector } from '../../../../store';
 import { getLibraryFiles } from '../../../../store/slices/files';
-import { ILibraryFile, MainTableFile } from '../../../../api/files/types';
+import { MainTableFile } from '../../../../api/files/types';
 import { RowIconCell } from '../../../atoms/RowIconCell';
 import { tableInfoProps } from '../../../molecules/MainTable/MainTable';
 

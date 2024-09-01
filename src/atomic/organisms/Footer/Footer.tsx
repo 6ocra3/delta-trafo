@@ -1,6 +1,6 @@
 // src/components/LoginPage.tsx
 
-import React, { useState } from 'react';
+import React from 'react';
 import './Footer.scss';
 
 const Footer: React.FC = () => {

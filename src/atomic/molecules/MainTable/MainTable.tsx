@@ -259,7 +259,7 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo }) => {
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </td>
             ))}
-            <td onClick={(e) => {onClickDelete(row.original)}} className='main_table--delete'>
+            <td onClick={() => {onClickDelete(row.original)}} className='main_table--delete'>
               <img src={deleteIcon}/>
             </td>
           </tr>

@@ -1,6 +1,6 @@
 // src/components/LoginPage.tsx
 
-import React, { useState } from 'react';
+import React from 'react';
 import intro from "/src/assets/images/intro/1.jpg"
 import card1 from "/src/assets/images/card/1.jpg"
 import card2 from "/src/assets/images/card/2.jpg"

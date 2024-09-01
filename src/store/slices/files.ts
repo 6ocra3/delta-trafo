@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../api";
-import { IDownloadFile, IGalleryFile, IKnowledgeBase, ILibraryFile, INewspaperFile, MainTableFile } from "../../api/files/types";
+import { IDownloadFile, IGalleryFile, IKnowledgeBase, ILibraryFile, INewspaperFile } from "../../api/files/types";
 
 export interface FilesState {
     filesData: {
@@ -144,7 +144,7 @@ const filesSlice = createSlice({
             newspaper: action.payload,
           };
         })
-        .addCase(downloadFiles.fulfilled, (state, action) => {    
+        .addCase(downloadFiles.fulfilled, (state) => {    
           state.filesData = {
             ...state.filesData,
           };
