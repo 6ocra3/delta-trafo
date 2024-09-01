@@ -18,6 +18,7 @@ const MyHeader: React.FC = () => {
         let token;
         console.log(1234, window)
         if (typeof window !== 'undefined') {
+          await new Promise((resolve) => setTimeout(resolve, 100));
           token = localStorage.getItem("token");
           console.log(4321, token)
           if (!token) {
