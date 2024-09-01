@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import './Header.scss';
 import logo from "/src/assets/images/icons/logo.svg"
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { useNavigate } from 'react-router-dom';
@@ -13,22 +14,15 @@ const MyHeader: React.FC = () => {
   const { email } = useAppSelector( (state) => state.user.userData)
 
   useEffect(() => {
-    const fetchUser = async (attempts: number = 3) => {
+    const fetchUser = async () => {
       try {
-        let token = localStorage.getItem("token");
-        console.log(token)
-        let currentAttempts = 0;
-
-        while (!token && currentAttempts < attempts) {
-          await new Promise((resolve) => setTimeout(resolve, 2000)); // Ждем 2 секунды перед новой попыткой
+        let token;
+        if (typeof window !== 'undefined') {
           token = localStorage.getItem("token");
-          currentAttempts++;
+          if (!token) {
+            throw new Error("JWT токен не найден");
+          }
         }
-
-        if (!token) {
-          throw new Error("JWT токен не найден после нескольких попыток");
-        }
-
         await dispatch(getUser()).unwrap();      
       } catch (error) {
         console.error(error);
