@@ -28,12 +28,13 @@
   font-display: swap;
 }
 @font-face {
-  font-family: "Micra-Regular";
+  font-family: "Micra";
   font-style: normal;
   font-weight: 400;
-  src: local("Micra"), url("../fonts/Micra.woff2") format("woff2"), url("../fonts/Micra.woff") format("woff");
+  src: local("Micra"), url("/src/assets/fonts/micra.ttf") format("truetype");
   font-display: swap;
 }
+
 html {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -166,7 +167,6 @@ body {
 }
 
 .main {
-  margin-bottom: 80px;
   padding-top: 120px;
   -webkit-box-flex: 1;
       -ms-flex: 1 0 auto;
@@ -190,6 +190,18 @@ body {
 .main.main--column {
   margin-bottom: 0;
 }
+
+.main--decor .main__content{
+  background: linear-gradient(to right,
+  #F3E2D5 0,           /* Красный начинается с 0 */
+  #F3E2D5 190px,       /* Красный до 190px */
+  white 190px,         /* Белый начинается с 190px */
+  white calc(100vw - 190px), /* Белый до (ширина - 190px - 190px) */
+  #F58220 calc(100vw - 190px), /* Оранжевый начинается там */
+  #F58220 100% /* Оранжевый до конца */
+  );
+}
+
 .main.main--column .main__content {
   display: grid;
   grid-template-columns: 190px 1fr;
@@ -306,7 +318,7 @@ body {
 }
 .header__title {
   color: #fff;
-  font-family: Micra;
+  font-family: "Micra", sans-serif;
   font-size: 30px;
   font-weight: 400;
   text-transform: uppercase;
@@ -422,6 +434,7 @@ body {
   padding-top: 80px;
   max-width: 1500px;
   width: 100%;
+  padding-bottom: 80px;
 }
 .tabs__top {
   margin: 0 0 115px 35px;
@@ -918,6 +931,7 @@ body {
   margin-bottom: 40px;
 }
 .password__input {
+  letter-spacing: 3px;
   margin-bottom: 20px;
   height: 40px;
 }
@@ -925,7 +939,8 @@ body {
   width: 22px;
   height: 22px;
   border: none;
-  background-color: transparent;
+  background-color: transparent !important;
+  outline: none !important;
   background-image: url("src/assets/images/icons/hidden.svg");
   background-repeat: no-repeat;
   background-size: contain;
@@ -1163,6 +1178,7 @@ body {
   font-weight: 600;
 }
 .login__input {
+  letter-spacing: 1px;
   border: 1px solid rgba(0, 0, 0, 0.3);
   background-color: #FBFBFB;
 }

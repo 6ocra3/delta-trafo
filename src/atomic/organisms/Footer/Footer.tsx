@@ -1,7 +1,8 @@
-// src/components/LoginPage.tsx
-
 import React from 'react';
 import './Footer.scss';
+import vk from "/src/assets/images/icons/vk.svg";
+import site from "/src/assets/images/icons/site.svg";
+import copy from "/src/assets/images/icons/copy.svg";
 
 const Footer: React.FC = () => {
 
@@ -24,10 +25,10 @@ const Footer: React.FC = () => {
             <div className="footer__social">
               <div className="social">
                 <a className="social__link" href="#">
-                  <img className="social__img" src="src/assets/images/icons/vk.svg" alt=""/>
+                  <img className="social__img" src={vk} alt=""/>
                 </a>
                 <a className="social__link" href="#">
-                  <img className="social__img" src="src/assets/images/icons/site.svg" alt=""/>
+                  <img className="social__img" src={site} alt=""/>
                 </a>
               </div>
               <div className="footer__social-text">По вопросам обучения и работы Корпоративного
@@ -37,7 +38,7 @@ const Footer: React.FC = () => {
             </div>
           </div>
           <div className="footer__copy">
-            <img src="src/assets/images/icons/copy.svg" alt=""/>
+            <img src={copy} alt=""/>
             2023 Корпоративный университет “Дельта Трафо”
           </div>
         </div>

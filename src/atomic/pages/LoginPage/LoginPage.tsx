@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import './LoginPage.scss';
 import { useAppDispatch } from '../../../store';
 import { ILoginRequest } from '../../../api/auth/types';
@@ -7,6 +7,7 @@ import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom'; 
 
 const LoginPage: React.FC = () => {
+  const [isHidden, setIsHidden] = useState(true);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   
@@ -58,8 +59,8 @@ const LoginPage: React.FC = () => {
                         name="password"
                         value={formik.values.password}
                         onChange={formik.handleChange}
-                        className="login__input password__input input" id="password" type="password"/>
-                  {/* <button className="password__hidden" data-target="#password"></button> */}
+                        className="login__input password__input input" id="password" type={isHidden ? "password" :  "text"}/>
+                   <button onClick={() => setIsHidden(!isHidden)} className="password__hidden" data-target="#password"></button>
                 </label>
               </div>
               <button type='submit' className="login__btn" >Войти</button>

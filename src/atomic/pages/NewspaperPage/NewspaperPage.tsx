@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import intro from "/src/assets/images/intro/4.jpg";
+import intro from "/src/assets/images/intro/5.jpg";
 import Navbar from '../../organisms/Navbar';
 import { IntroComponent } from '../../molecules/IntroComponent';
 import { NewspaperTable } from '../../organisms/MainTables/NewspaperTable';
