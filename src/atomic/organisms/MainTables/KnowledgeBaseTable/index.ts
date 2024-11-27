@@ -1,0 +1,1 @@
+export { default as KnowledgeBaseTable} from './KnowledgeBaseTable.tsx';

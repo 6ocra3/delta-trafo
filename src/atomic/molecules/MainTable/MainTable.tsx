@@ -4,6 +4,7 @@ import { ColumnDef, useReactTable, getCoreRowModel,
 getPaginationRowModel, 
 PaginationState} from '@tanstack/react-table';
 import "./MainTable.css"
+import back from "/src/assets/images/icons/arrow-back.svg"
 import prev from "/src/assets/images/icons/arrow-prev.svg"
 import next from "/src/assets/images/icons/arrow-next.svg"
 import { FILETYPES, MainTableFile } from '../../../api/files/types';
@@ -23,17 +24,19 @@ export interface tableInfoProps{
   pageName: string;
   folderFields: FolderFields[];
   fileFields: FileFields[];
+  basePath?: string;
 }
 
 interface MainTableProps {
   data: MainTableFile;
   columns: ColumnDef<MainTableFile, any>[];
   tableInfo: tableInfoProps;
+  backFunction?: () => void
 }
 
-const getPathForCreate = (curRoot: MainTableFile): string => {
+const getPathForCreate = (curRoot: MainTableFile, basePath: string): string => {
   if(curRoot.path.length == 0){
-    return ""
+    return basePath
   }
   console.log(curRoot.path)
   const temp = curRoot.path.split("/").slice(1).join("/")
@@ -65,7 +68,8 @@ const dfs = (folder: MainTableFile, curPath: MainTableFile[], id: number): MainT
   return undefined;
 }
 
-const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo }) => {
+const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo, backFunction }) => {
+  const { basePath = "" } = tableInfo;
   const dispatch = useAppDispatch();
   const {page, folderId} = useAppSelector(state => state.files.filesData.mainTableRootInfo)
   const [isShowingModal, toggleModal] = useModal();
@@ -105,7 +109,7 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo }) => {
       }
     }
 
-  }, [])
+  }, [data])
 
   useEffect(() => {
     if (root) {
@@ -133,7 +137,7 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo }) => {
       setRoot(rowOriginal);
     } else {
       try {
-        const resultAction = await dispatch(downloadFiles({ page: "library", fileId: rowOriginal.id })).unwrap();
+        const resultAction = await dispatch(downloadFiles({ page: tableInfo.pageName, fileId: rowOriginal.id })).unwrap();
         
         const url = window.URL.createObjectURL(resultAction);
         const link = document.createElement('a');
@@ -184,110 +188,121 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo }) => {
   return (
     <>
     <Modal show={isShowingModal} onCloseButtonClick={toggleModal}>
-      <CreateFileFolderform presetPath={root ? getPathForCreate(root) : ""} pageName={tableInfo.pageName} folderFields={tableInfo.folderFields} fileFields={tableInfo.fileFields}/>
+      <CreateFileFolderform presetPath={root ? getPathForCreate(root, basePath) : basePath} pageName={tableInfo.pageName} folderFields={tableInfo.folderFields} fileFields={tableInfo.fileFields}/>
     </Modal>
-    <div className="tabs__top tabs__top--column">
-      <div className="tabs__top-items">
-        {
-          data.folders.map((el, index) => (
-            <a key={index} className={["tabs__top-item",  JSON.stringify(el) === JSON.stringify(tab)  && "tabs__top-item--active"].join(" ")} onClick={() => {
-              setTab(el); 
-              setPath([])
-              setRoot(el)
-            }}>{el.name} (<span>{el.folders.length+el.files.length}</span>)</a>
-          ))
-        }
-      </div>
-      <div style={{width:"100%",display: "flex", justifyContent: "space-between"}}>
-        <label className="search">
-          <input value={searchString} onChange={(e) => setSearchString(e.target.value)} className="search__input"/>
-        </label>
-        <div style={{display: "flex", alignItems: "center"}}>
-        <button className="panel__btn add-section" onClick={() => toggleModal()} >Добавить раздел</button>
+      <div className="tabs__top tabs__top--column">
+        {!!backFunction && <img className="tabs__back-btn" src={back} onClick={() => backFunction()} alt="{}"/>}
+        <div className="tabs__top-items">
+          {
+            data.folders.map((el, index) => (
+                <a key={index}
+                   className={["tabs__top-item", JSON.stringify(el) === JSON.stringify(tab) && "tabs__top-item--active"].join(" ")}
+                   onClick={() => {
+                     setTab(el);
+                     setPath([])
+                     setRoot(el)
+                   }}>{el.name} (<span>{el.folders.length + el.files.length}</span>)</a>
+            ))
+          }
         </div>
-      </div>
+        <div style={{width: "100%", display: "flex", justifyContent: "space-between"}}>
+          <label className="search">
+            <input value={searchString} onChange={(e) => setSearchString(e.target.value)} className="search__input"/>
+          </label>
+          <div style={{display: "flex", alignItems: "center"}}>
+            <button className="panel__btn add-section" onClick={() => toggleModal()}>Добавить раздел</button>
+          </div>
+        </div>
 
-    </div>
-    <div className='tabs__content'>
-      <div className='path-row'>
-        {path.length > 1 && path.map( (el: MainTableFile, i: number) => {
-          return(
-            <span className='path-el' key={i}>
+      </div>
+      <div className='tabs__content'>
+        <div className='path-row'>
+
+          {path.length > 1 && path.map((el: MainTableFile, i: number) => {
+            return (
+                <span className='path-el' key={i}>
             <div onClick={() => goTo(el)}>
               {i == 0 ? tableInfo.tableName : el.name}
             </div>
             <div style={{cursor: "default"}}>
-              {i != path.length-1 && "->" }
+              {i != path.length - 1 && "->"}
             </div>
             </span>
-          )
-        })}
-      </div>
-    <table className="main_table">
-      <thead>
-        {table.getHeaderGroups().map(headerGroup => (
-          <tr className='main_table--header' key={headerGroup.id}>
-            {headerGroup.headers.map(header => (
-              <th
-                style={{ width: header.getSize() }}
-                key={header.id}
-                onClick={header.column.getToggleSortingHandler()}
-                className='main_table--header-cell'
-              >
-                <div style={{display: "flex", gap: "10px"}}>
-                {flexRender(header.column.columnDef.header, header.getContext())}
-                {header.column.getIsSorted() ? (
-                  header.column.getIsSorted() === 'desc' ? <img src={arrowDown}/> : <img src={arrowDown} style={{transform:"rotate(180deg)"}}/>
-                ) : null}
-                </div>
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody>
-        {table.getRowModel().rows.map(row => (
-          <tr key={row.id}
-          className='main_table--row'
-          onDoubleClick={() => onRowDoubleClick?.(row.original)}
-          >
-            {row.getVisibleCells().map(cell => (
-              <td
-                className='main_table--cell'
-                key={cell.id}
-              >
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </td>
-            ))}
-            <td onClick={() => {onClickDelete(row.original)}} className='main_table--delete'>
-              <img src={deleteIcon}/>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-    <div className="pagination">
-      <a onClick={() => {table.previousPage()}} className="pagination__prev pagination__arrows">
-        <img src={prev} alt=""/>
-      </a>
-      <ul className="pagination__list">
-          {Array.from({ length: table.getPageCount() }, (_, i) => (
-            <li key={i} className="pagination__item">
-              <a
-                onClick={() => table.setPageIndex(i)}
-                className={`pagination__link ${i === pagination.pageIndex ? 'pagination__link--active' : ''}`}
-              >
-                {i + 1}
-              </a>
-            </li>
+            )
+          })}
+        </div>
+        <table className="main_table">
+          <thead>
+          {table.getHeaderGroups().map(headerGroup => (
+              <tr className='main_table--header' key={headerGroup.id}>
+                {headerGroup.headers.map(header => (
+                    <th
+                        style={{width: header.getSize()}}
+                        key={header.id}
+                        onClick={header.column.getToggleSortingHandler()}
+                        className='main_table--header-cell'
+                    >
+                      <div style={{display: "flex", gap: "10px"}}>
+                        {flexRender(header.column.columnDef.header, header.getContext())}
+                        {header.column.getIsSorted() ? (
+                            header.column.getIsSorted() === 'desc' ? <img src={arrowDown}/> :
+                                <img src={arrowDown} style={{transform: "rotate(180deg)"}}/>
+                        ) : null}
+                      </div>
+                    </th>
+                ))}
+              </tr>
           ))}
-        </ul>
-      <a onClick={() => {table.nextPage()}} 
-          className="pagination__next pagination__arrows">
-        <img src={next} alt=""/>
-      </a>
-    </div>
-    </div>
+          </thead>
+          <tbody>
+          {table.getRowModel().rows.map(row => (
+              <tr key={row.id}
+                  className='main_table--row'
+                  onDoubleClick={() => onRowDoubleClick?.(row.original)}
+              >
+                {row.getVisibleCells().map(cell => (
+                    <td
+                        className='main_table--cell'
+                        key={cell.id}
+                    >
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </td>
+                ))}
+                <td onClick={() => {
+                  onClickDelete(row.original)
+                }} className='main_table--delete'>
+                  <img src={deleteIcon}/>
+                </td>
+              </tr>
+          ))}
+          </tbody>
+        </table>
+        <div className="pagination">
+          <a onClick={() => {
+            table.previousPage()
+          }} className="pagination__prev pagination__arrows">
+            <img src={prev} alt=""/>
+          </a>
+          <ul className="pagination__list">
+            {Array.from({length: table.getPageCount()}, (_, i) => (
+                <li key={i} className="pagination__item">
+                  <a
+                      onClick={() => table.setPageIndex(i)}
+                      className={`pagination__link ${i === pagination.pageIndex ? 'pagination__link--active' : ''}`}
+                  >
+                    {i + 1}
+                  </a>
+                </li>
+            ))}
+          </ul>
+          <a onClick={() => {
+            table.nextPage()
+          }}
+             className="pagination__next pagination__arrows">
+            <img src={next} alt=""/>
+          </a>
+        </div>
+      </div>
     </>
   );
 };

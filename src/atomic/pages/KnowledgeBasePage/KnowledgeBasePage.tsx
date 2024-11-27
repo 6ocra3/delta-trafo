@@ -1,17 +1,17 @@
 // src/components/LoginPage.tsx
 
-import React, { useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import Navbar from '../../organisms/Navbar';
 import intro from "/src/assets/images/intro/2.jpg"
 import { IntroComponent } from '../../molecules/IntroComponent';
 import { useAppDispatch, useAppSelector } from '../../../store';
-import { getKnowledgeBase, updateMainTableRootInfo } from '../../../store/slices/files';
+import { getKnowledgeBase } from '../../../store/slices/files';
 import { IKnowledgeBase } from '../../../api/files/types';
-import { useNavigate } from 'react-router-dom';
+import {KnowledgeBaseTable} from "../../organisms/MainTables/KnowledgeBaseTable";
 
 
 const KnowledgeBasePage: React.FC = () => {
-  const navigate = useNavigate()
+  const [section, setSection] = useState<string>("");
   const dispatch = useAppDispatch()
   const data = useAppSelector(state => state.files.filesData.knowledgeBase)
 
@@ -24,18 +24,8 @@ const KnowledgeBasePage: React.FC = () => {
   }, [])
 
   const onClickNavigate = (el: IKnowledgeBase) => {
-    dispatch(updateMainTableRootInfo({ page: el.page, folderId: el.folderId }))
-    switch (el.page){
-      case "gallery":
-        navigate('../gallery')
-        break;
-      case "library":
-        navigate('../library')
-        break;
-      case "paper": 
-        navigate('../newspaper')
-        break;
-    }
+    setSection(el.name);
+    console.log(el.name)
   }
 
   return (
@@ -45,18 +35,24 @@ const KnowledgeBasePage: React.FC = () => {
         <div className="container">
           <div className="main__inner">
             <Navbar/>
-            <div className="base">
-              <ul className="base__list">
-                {data && data.map((el, index) => (
-                  <li key={index} onClick={() => onClickNavigate(el)}>
-                      <a className="base__item-link">
-                        <img className="base__item-img" src={el.imageUrl} alt=""/>
-                        <h3 className="base__item-title">{el.name}</h3>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {section.length ?
+                <div className="tabs">
+                  <KnowledgeBaseTable section={section} backFunction={() => setSection("")}/>
+                </div>
+                :
+                <div className="base">
+                  <ul className="base__list">
+                    {data && data.map((el, index) => (
+                        <li key={index} onClick={() => onClickNavigate(el)}>
+                          <a className="base__item-link">
+                            <img className="base__item-img" src={el.imageUrl} alt=""/>
+                            <h3 className="base__item-title">{el.name}</h3>
+                          </a>
+                        </li>
+                    ))}
+                  </ul>
+                </div>
+            }
           </div>
         </div>
       </div>

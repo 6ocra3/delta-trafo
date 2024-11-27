@@ -8,6 +8,7 @@ export interface FilesState {
         gallery: IGalleryFile | null;
         newspaper: INewspaperFile | null;
         knowledgeBase: IKnowledgeBase[] | null;
+        knowledgeBaseSection: ILibraryFile | null
         mainTableRootInfo: {
           page: "paper" | "galler" | "library" | null;
           folderId: number | null
@@ -35,6 +36,29 @@ export const getLibraryFiles = createAsyncThunk<
     console.error(error);
     throw rejectWithValue("Не удалось загрузить файлы библиотеки");
   }
+});
+
+export const getKnowledgeBaseFiles = createAsyncThunk<
+    ILibraryFile,
+    {addAll: boolean, section: string},
+    { rejectValue: string }
+>("files/knowledge-base-section", async (params, { rejectWithValue }) => {
+    try {
+        const {data} = await api.files.getKnowledgeBaseSection(params.section)
+        if(params.addAll){
+            const allData: ILibraryFile = {name: "Все", folders: [], isMeta: true, files: [], path:"", type:0,author:"", id: 0};
+            data.folders.forEach(el => {
+                allData.folders = [...allData.folders, ...JSON.parse(JSON.stringify(el.folders))]
+                allData.files = [...allData.files, ...JSON.parse(JSON.stringify(el.files))]
+            })
+            data.folders.unshift(allData)
+        }
+        console.log(123, data)
+        return data;
+    } catch (error: unknown) {
+        console.error(error);
+        throw rejectWithValue("Не удалось загрузить файлы библиотеки");
+    }
 });
 
 export const getGalleryFiles = createAsyncThunk<
@@ -99,6 +123,7 @@ const initialState: FilesState = {
         gallery: null,
         newspaper: null,
         knowledgeBase: null,
+        knowledgeBaseSection: null,
         mainTableRootInfo: {
           page: null,
           folderId: null
@@ -120,6 +145,12 @@ const filesSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+        .addCase(getKnowledgeBaseFiles.fulfilled, (state, action) => {
+            state.filesData = {
+                ...state.filesData,
+                knowledgeBaseSection: action.payload,
+            };
+        })
         .addCase(getKnowledgeBase.fulfilled, (state, action) => {    
           state.filesData = {
             ...state.filesData,

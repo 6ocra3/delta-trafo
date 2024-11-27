@@ -3,6 +3,9 @@ import { FilesEndpoints } from "../endpoints";
 import { axiosInstance } from "../instance";
 import { ICreateFile, ICreateFolder, IDeleteFile, IDeleteFolder, IDownloadFile, IGalleryFile, IKnowledgeBase, ILibraryFile, INewspaperFile } from "./types";
 
+export const getKnowledgeBaseSection = (section: string): AxiosPromise<ILibraryFile> =>
+    axiosInstance.get(FilesEndpoints.GET_KNOWLEDGE_BASE_SECTION + section);
+
 export const getLibraryFiles = (): AxiosPromise<ILibraryFile> =>
     axiosInstance.get(FilesEndpoints.GET_LIBRARY);
 

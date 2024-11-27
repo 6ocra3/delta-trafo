@@ -3,7 +3,7 @@ import { LocalStorageTokenKey } from "../store/slices/auth";
 
 
 export const axiosInstance = axios.create({
-    baseURL: "http://localhost:8081",
+    baseURL: "http://localhost:8080",
     headers: {
       "Access-Control-Allow-Methods": "*",
     },

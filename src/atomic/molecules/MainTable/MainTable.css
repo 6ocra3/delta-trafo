@@ -48,3 +48,7 @@ th, tr{
 .main_table--row:hover .main_table--delete{
     opacity: 1;
 }
+
+.tabs__back-btn{
+    margin-bottom: 15px;
+}
