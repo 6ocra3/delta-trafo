@@ -31,7 +31,8 @@ interface MainTableProps {
   data: MainTableFile;
   columns: ColumnDef<MainTableFile, any>[];
   tableInfo: tableInfoProps;
-  backFunction?: () => void
+  backFunction?: () => void;
+  createEl?: React.ReactNode;
 }
 
 const getPathForCreate = (curRoot: MainTableFile, basePath: string): string => {
@@ -68,7 +69,7 @@ const dfs = (folder: MainTableFile, curPath: MainTableFile[], id: number): MainT
   return undefined;
 }
 
-const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo, backFunction }) => {
+const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo, backFunction, createEl }) => {
   const { basePath = "" } = tableInfo;
   const dispatch = useAppDispatch();
   const {page, folderId} = useAppSelector(state => state.files.filesData.mainTableRootInfo)
@@ -209,8 +210,9 @@ const MainTable: React.FC<MainTableProps> = ({ data, columns, tableInfo, backFun
           <label className="search">
             <input value={searchString} onChange={(e) => setSearchString(e.target.value)} className="search__input"/>
           </label>
-          <div style={{display: "flex", alignItems: "center"}}>
-            <button className="panel__btn add-section" onClick={() => toggleModal()}>Добавить раздел</button>
+          <div style={{display: "flex", alignItems: "center"}} onClick={() => toggleModal()}>
+            {createEl ? createEl :
+                <button className="panel__btn add-section">Добавить папку</button>}
           </div>
         </div>
 

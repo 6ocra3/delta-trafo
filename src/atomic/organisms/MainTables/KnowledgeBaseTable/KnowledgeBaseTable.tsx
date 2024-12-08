@@ -80,13 +80,15 @@ const KnowledgeBaseTable: React.FC<KnowledgeBaseTableProps> = ({section, backFun
         pageName: "base",
         fileFields: ["path", "author"],
         folderFields: ["name", "path", "author"],
-        basePath: "/"+section
+        basePath: "/" + section
     }
+
+    const createEl = <button className="panel__btn add-section add-book">Добавить книгу</button>;
 
     return (
         <>
             {
-                data && <MainTable data={data} columns={columns} tableInfo={tableInfo} backFunction={backFunction}/>
+                data && <MainTable data={data} columns={columns} tableInfo={tableInfo} backFunction={backFunction} createEl={createEl}/>
             }
         </>
     );

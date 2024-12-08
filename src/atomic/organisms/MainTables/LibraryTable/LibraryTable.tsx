@@ -77,10 +77,12 @@ const LibraryTable: React.FC = () => {
     folderFields: ["name","path", "author"]
   }
 
+  const createEl = <button className="panel__btn add-section add-book">Добавить книгу</button>;
+
   return (
     <>
       {
-        data && <MainTable data={data} columns={columns} tableInfo={tableInfo} />
+        data && <MainTable data={data} columns={columns} tableInfo={tableInfo} createEl={createEl} />
       }
     </>
   );

@@ -46,7 +46,7 @@ const KnowledgeBasePage: React.FC = () => {
                         <li key={index} onClick={() => onClickNavigate(el)}>
                           <a className="base__item-link">
                             <img className="base__item-img" src={el.imageUrl} alt=""/>
-                            <h3 className="base__item-title">{el.name}</h3>
+                            <h3 className="base__item-title">{el.description}</h3>
                           </a>
                         </li>
                     ))}

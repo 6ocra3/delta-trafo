@@ -684,7 +684,7 @@ body {
 }
 .base__list {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 110px 0;
 }
 .base__item {
@@ -713,6 +713,7 @@ body {
 }
 .base__item-img {
   margin: 0 auto 13px;
+  height: 200px;
 }
 
 .library {
@@ -856,6 +857,15 @@ body {
   -webkit-transform: translateY(-50%);
       -ms-transform: translateY(-50%);
           transform: translateY(-50%);
+}
+
+.add-book.add-section::before{
+  width: 20px;
+  height: 25px;
+  background-image: url("/src/assets/images/icons/add-book.svg");
+  top: -20%;
+  transform: none;
+  left: 8px;
 }
 .panel__body .library__item {
   grid-template-columns: 50% 38% 7%;

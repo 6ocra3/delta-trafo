@@ -56,7 +56,8 @@ export interface IKnowledgeBase{
     name: string,
     imageUrl: string,
     page: "paper" | "library" | "gallery",
-    folderId: number
+    folderId: number,
+    description: string,
 }
 
 export interface ICreateFolder{
