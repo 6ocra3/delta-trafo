@@ -1,9 +1,9 @@
 import axios from "axios";
 import { LocalStorageTokenKey } from "../store/slices/auth";
 
-
+console.log(import.meta.env.BACK_API_URL)
 export const axiosInstance = axios.create({
-    baseURL: "http://localhost:8080",
+    baseURL: import.meta.env.VITE_BACK_API_URL,
     headers: {
       "Access-Control-Allow-Methods": "*",
     },
