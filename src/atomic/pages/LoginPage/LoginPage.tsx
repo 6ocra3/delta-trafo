@@ -76,7 +76,7 @@ const LoginPage: React.FC = () => {
               </a>
             </div>
           </div>
-          <div className="login-box__copy"><span>2023 КУ “Дельта Трафо”</span></div>
+          {/* <div className="login-box__copy"><span>2023 КУ “Дельта Трафо”</span></div> */}
         </div>
       </div>
     </div>
